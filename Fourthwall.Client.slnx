@@ -1,0 +1,18 @@
+<Solution>
+  <Folder Name="/samples/">
+    <Project Path="samples/Fourthwall.Client.Sample/Fourthwall.Client.Sample.csproj" Id="1f7be09f-a941-4222-865d-767243a18a9a" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="tools/regenerate-client.ps1" />
+    <File Path="tools/regenerate-client.sh" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Fourthwall.Client.AspNetCore/Fourthwall.Client.AspNetCore.csproj" />
+    <Project Path="src/Fourthwall.Client.DependencyInjection/Fourthwall.Client.DependencyInjection.csproj" />
+    <Project Path="src/Fourthwall.Client.Generated/Fourthwall.Client.Generated.csproj" />
+    <Project Path="src/Fourthwall.Client/Fourthwall.Client.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Fourthwall.Client.Tests/Fourthwall.Client.Tests.csproj" />
+  </Folder>
+</Solution>

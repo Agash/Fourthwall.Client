@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>preview</LangVersion>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<IsPackable>true</IsPackable>
+		<PackageId>Fourthwall.Client.AspNetCore</PackageId>
+		<Title>Fourthwall.Client.AspNetCore</Title>
+		<Authors>Agash</Authors>
+		<Company>Agash</Company>
+		<Description>ASP.NET Core adapter package for Fourthwall.Client.</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RepositoryType>git</RepositoryType>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Fourthwall.Client\Fourthwall.Client.csproj" />
+		<ProjectReference Include="..\..\..\Agash.Webhook.Abstractions\src\Agash.Webhook.Abstractions\Agash.Webhook.Abstractions.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+</Project>

@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IsPackable>true</IsPackable>
+    <PackageId>Fourthwall.Client.Generated</PackageId>
+    <Title>Fourthwall.Client.Generated</Title>
+    <Authors>Agash</Authors>
+    <Company>Agash</Company>
+    <Description>Generated Kiota client for the Fourthwall Platform API.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
+	<NoWarn>CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Kiota.Abstractions" Version="1.22.0" />
+    <PackageReference Include="Microsoft.Kiota.Http.HttpClientLibrary" Version="1.22.0" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Json" Version="1.22.0" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Form" Version="1.22.0" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Multipart" Version="1.22.0" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Text" Version="1.22.0" />
+  </ItemGroup>
+</Project>
