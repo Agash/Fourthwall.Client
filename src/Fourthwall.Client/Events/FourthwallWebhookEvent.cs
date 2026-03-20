@@ -1,9 +1,8 @@
-﻿using System.Text.Json;
-
 namespace Fourthwall.Client.Events;
 
 /// <summary>
 /// Represents the normalized base type for Fourthwall webhook events.
+/// Concrete subtypes add a strongly-typed <c>Data</c> property specific to the event kind.
 /// </summary>
 public abstract record FourthwallWebhookEvent
 {
@@ -41,9 +40,4 @@ public abstract record FourthwallWebhookEvent
     /// Gets a value indicating whether the event contains test data.
     /// </summary>
     public required bool TestMode { get; init; }
-
-    /// <summary>
-    /// Gets the raw event payload data.
-    /// </summary>
-    public required JsonElement Data { get; init; }
 }

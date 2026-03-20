@@ -1,4 +1,4 @@
-﻿using Agash.Webhook.Abstractions;
+using Agash.Webhook.Abstractions;
 using Fourthwall.Client.Abstractions;
 using Fourthwall.Client.Events;
 using Fourthwall.Client.Json;
@@ -69,7 +69,12 @@ public sealed class FourthwallWebhookHandler : IFourthwallWebhookHandler
             return Task.FromResult(CreateFailureResult(400, true, false, "The Fourthwall webhook payload could not be deserialized."));
         }
 
-        FourthwallWebhookEvent evt = MapEnvelope(envelope);
+        FourthwallWebhookEvent? evt = TryMapEnvelope(envelope);
+        if (evt is null)
+        {
+            return Task.FromResult(CreateFailureResult(400, true, false, $"The Fourthwall webhook data payload for event type '{envelope.Type}' could not be deserialized."));
+        }
+
         bool isKnownEvent = evt is not FourthwallUnknownWebhookEvent;
 
         return Task.FromResult(new WebhookHandleResult<FourthwallWebhookEvent>
@@ -82,21 +87,110 @@ public sealed class FourthwallWebhookHandler : IFourthwallWebhookHandler
         });
     }
 
-    private static FourthwallWebhookEvent MapEnvelope(FourthwallWebhookEnvelope envelope)
+    private static FourthwallWebhookEvent? TryMapEnvelope(FourthwallWebhookEnvelope envelope)
     {
+        JsonSerializerOptions options = FourthwallJsonSerializerContext.Default.Options;
+
         return envelope.Type switch
         {
-            FourthwallWebhookEventType.OrderPlaced => new FourthwallOrderPlacedWebhookEvent
-            {
-                Id = envelope.Id,
-                WebhookId = envelope.WebhookId,
-                ShopId = envelope.ShopId,
-                Type = envelope.Type,
-                ApiVersion = envelope.ApiVersion,
-                CreatedAt = envelope.CreatedAt,
-                TestMode = envelope.TestMode,
-                Data = envelope.Data.Clone(),
-            },
+            FourthwallWebhookEventType.OrderPlaced => TryDeserialize<FourthwallOrderData>(envelope.Data, options) is { } orderData
+                ? new FourthwallOrderPlacedWebhookEvent
+                {
+                    Id = envelope.Id,
+                    WebhookId = envelope.WebhookId,
+                    ShopId = envelope.ShopId,
+                    Type = envelope.Type,
+                    ApiVersion = envelope.ApiVersion,
+                    CreatedAt = envelope.CreatedAt,
+                    TestMode = envelope.TestMode,
+                    Data = orderData,
+                }
+                : null,
+
+            FourthwallWebhookEventType.OrderUpdated => TryDeserialize<FourthwallOrderUpdatedData>(envelope.Data, options) is { } orderUpdatedData
+                ? new FourthwallOrderUpdatedWebhookEvent
+                {
+                    Id = envelope.Id,
+                    WebhookId = envelope.WebhookId,
+                    ShopId = envelope.ShopId,
+                    Type = envelope.Type,
+                    ApiVersion = envelope.ApiVersion,
+                    CreatedAt = envelope.CreatedAt,
+                    TestMode = envelope.TestMode,
+                    Data = orderUpdatedData,
+                }
+                : null,
+
+            FourthwallWebhookEventType.Donation => TryDeserialize<FourthwallDonationData>(envelope.Data, options) is { } donationData
+                ? new FourthwallDonationWebhookEvent
+                {
+                    Id = envelope.Id,
+                    WebhookId = envelope.WebhookId,
+                    ShopId = envelope.ShopId,
+                    Type = envelope.Type,
+                    ApiVersion = envelope.ApiVersion,
+                    CreatedAt = envelope.CreatedAt,
+                    TestMode = envelope.TestMode,
+                    Data = donationData,
+                }
+                : null,
+
+            FourthwallWebhookEventType.SubscriptionPurchased => TryDeserialize<FourthwallMembershipSupporterData>(envelope.Data, options) is { } subPurchasedData
+                ? new FourthwallSubscriptionPurchasedWebhookEvent
+                {
+                    Id = envelope.Id,
+                    WebhookId = envelope.WebhookId,
+                    ShopId = envelope.ShopId,
+                    Type = envelope.Type,
+                    ApiVersion = envelope.ApiVersion,
+                    CreatedAt = envelope.CreatedAt,
+                    TestMode = envelope.TestMode,
+                    Data = subPurchasedData,
+                }
+                : null,
+
+            FourthwallWebhookEventType.SubscriptionExpired => TryDeserialize<FourthwallMembershipSupporterData>(envelope.Data, options) is { } subExpiredData
+                ? new FourthwallSubscriptionExpiredWebhookEvent
+                {
+                    Id = envelope.Id,
+                    WebhookId = envelope.WebhookId,
+                    ShopId = envelope.ShopId,
+                    Type = envelope.Type,
+                    ApiVersion = envelope.ApiVersion,
+                    CreatedAt = envelope.CreatedAt,
+                    TestMode = envelope.TestMode,
+                    Data = subExpiredData,
+                }
+                : null,
+
+            FourthwallWebhookEventType.SubscriptionChanged => TryDeserialize<FourthwallMembershipSupporterData>(envelope.Data, options) is { } subChangedData
+                ? new FourthwallSubscriptionChangedWebhookEvent
+                {
+                    Id = envelope.Id,
+                    WebhookId = envelope.WebhookId,
+                    ShopId = envelope.ShopId,
+                    Type = envelope.Type,
+                    ApiVersion = envelope.ApiVersion,
+                    CreatedAt = envelope.CreatedAt,
+                    TestMode = envelope.TestMode,
+                    Data = subChangedData,
+                }
+                : null,
+
+            FourthwallWebhookEventType.GiftPurchase => TryDeserialize<FourthwallGiftPurchaseData>(envelope.Data, options) is { } giftData
+                ? new FourthwallGiftPurchaseWebhookEvent
+                {
+                    Id = envelope.Id,
+                    WebhookId = envelope.WebhookId,
+                    ShopId = envelope.ShopId,
+                    Type = envelope.Type,
+                    ApiVersion = envelope.ApiVersion,
+                    CreatedAt = envelope.CreatedAt,
+                    TestMode = envelope.TestMode,
+                    Data = giftData,
+                }
+                : null,
+
             _ => new FourthwallUnknownWebhookEvent
             {
                 Id = envelope.Id,
@@ -109,6 +203,19 @@ public sealed class FourthwallWebhookHandler : IFourthwallWebhookHandler
                 Data = envelope.Data.Clone(),
             },
         };
+    }
+
+    private static T? TryDeserialize<T>(JsonElement data, JsonSerializerOptions options)
+        where T : class
+    {
+        try
+        {
+            return data.Deserialize<T>(options);
+        }
+        catch (JsonException)
+        {
+            return null;
+        }
     }
 
     private static WebhookHandleResult<FourthwallWebhookEvent> CreateFailureResult(
