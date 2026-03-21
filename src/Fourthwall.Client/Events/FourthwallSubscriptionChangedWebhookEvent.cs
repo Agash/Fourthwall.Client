@@ -1,4 +1,4 @@
-using Fourthwall.Client.Models;
+using Fourthwall.Client.Generated.Models.Openapi.Model.MembershipSupporterV1;
 
 namespace Fourthwall.Client.Events;
 
@@ -10,5 +10,5 @@ namespace Fourthwall.Client.Events;
 public sealed record FourthwallSubscriptionChangedWebhookEvent : FourthwallWebhookEvent
 {
     /// <summary>Gets the typed membership supporter payload.</summary>
-    public required FourthwallMembershipSupporterData Data { get; init; }
+    public required MembershipSupporterV1 Data { get; init; }
 }

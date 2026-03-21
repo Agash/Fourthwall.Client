@@ -1,4 +1,4 @@
-using Fourthwall.Client.Models;
+using Fourthwall.Client.Generated.Models.Openapi.Model.GiftPurchaseV1;
 
 namespace Fourthwall.Client.Events;
 
@@ -10,5 +10,5 @@ namespace Fourthwall.Client.Events;
 public sealed record FourthwallGiftPurchaseWebhookEvent : FourthwallWebhookEvent
 {
     /// <summary>Gets the typed gift purchase payload.</summary>
-    public required FourthwallGiftPurchaseData Data { get; init; }
+    public required GiftPurchaseV1 Data { get; init; }
 }

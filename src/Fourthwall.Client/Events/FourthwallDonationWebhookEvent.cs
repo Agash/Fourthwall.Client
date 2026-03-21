@@ -1,4 +1,4 @@
-using Fourthwall.Client.Models;
+using Fourthwall.Client.Generated.Models.Openapi.Model.DonationV1;
 
 namespace Fourthwall.Client.Events;
 
@@ -9,5 +9,5 @@ namespace Fourthwall.Client.Events;
 public sealed record FourthwallDonationWebhookEvent : FourthwallWebhookEvent
 {
     /// <summary>Gets the typed donation payload.</summary>
-    public required FourthwallDonationData Data { get; init; }
+    public required DonationV1 Data { get; init; }
 }

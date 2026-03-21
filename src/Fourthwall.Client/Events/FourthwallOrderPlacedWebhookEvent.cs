@@ -1,4 +1,4 @@
-using Fourthwall.Client.Models;
+using Fourthwall.Client.Generated.Models.Openapi.Model.OrderV1;
 
 namespace Fourthwall.Client.Events;
 
@@ -9,5 +9,5 @@ namespace Fourthwall.Client.Events;
 public sealed record FourthwallOrderPlacedWebhookEvent : FourthwallWebhookEvent
 {
     /// <summary>Gets the typed order payload.</summary>
-    public required FourthwallOrderData Data { get; init; }
+    public required OrderV1 Data { get; init; }
 }

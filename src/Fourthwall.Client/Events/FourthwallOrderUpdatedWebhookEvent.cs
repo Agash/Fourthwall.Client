@@ -10,5 +10,5 @@ namespace Fourthwall.Client.Events;
 public sealed record FourthwallOrderUpdatedWebhookEvent : FourthwallWebhookEvent
 {
     /// <summary>Gets the typed order-updated payload.</summary>
-    public required FourthwallOrderUpdatedData Data { get; init; }
+    public required OrderUpdatedV1 Data { get; init; }
 }
