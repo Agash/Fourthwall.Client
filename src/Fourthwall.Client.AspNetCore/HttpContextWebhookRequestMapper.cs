@@ -22,11 +22,11 @@ public static class HttpContextWebhookRequestMapper
     {
         ArgumentNullException.ThrowIfNull(context);
 
-        Dictionary<string, string[]> headers = new(StringComparer.OrdinalIgnoreCase);
+        Dictionary<string, string[]> headers = [];
 
         foreach ((string key, StringValues value) in context.Request.Headers)
         {
-            headers[key] = value.Select(static x => x ?? string.Empty).ToArray();
+            headers[key] = [.. value.Select(static x => x ?? string.Empty)];
         }
 
         byte[] body;

@@ -65,7 +65,7 @@ internal static class SampleApplication
             configuration.WebhookPath,
             static (context, _) =>
             {
-                FourthwallWebhookOptions options = (FourthwallWebhookOptions)context.Items["FourthwallWebhookOptions"]!;
+                var options = (FourthwallWebhookOptions)context.Items["FourthwallWebhookOptions"]!;
                 return Task.FromResult(options);
             },
             async (evt, _, _) =>
