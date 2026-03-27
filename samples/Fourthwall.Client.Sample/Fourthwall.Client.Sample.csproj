@@ -6,6 +6,7 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>preview</LangVersion>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<IsPackable>false</IsPackable>
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>
 		<UserSecretsId>Fourthwall.Client.Sample</UserSecretsId>
 	</PropertyGroup>
