@@ -33,10 +33,7 @@ public static class FourthwallEndpointRouteBuilderExtensions
 
         FourthwallWebhookEndpointOptions options = new()
         {
-            ResolveWebhookOptionsAsync = static (_, _) => Task.FromResult(new FourthwallWebhookOptions
-            {
-                SigningSecret = string.Empty,
-            }),
+            ResolveWebhookOptionsAsync = static (_, _) => Task.FromResult(new FourthwallWebhookOptions()),
         };
 
         configure(options);

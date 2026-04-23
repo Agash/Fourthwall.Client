@@ -38,7 +38,6 @@ public sealed class FourthwallWebhookHandler : IFourthwallWebhookHandler
     {
         ArgumentNullException.ThrowIfNull(request);
         ArgumentNullException.ThrowIfNull(options);
-        ArgumentException.ThrowIfNullOrEmpty(options.SigningSecret);
 
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -52,12 +51,15 @@ public sealed class FourthwallWebhookHandler : IFourthwallWebhookHandler
             return CreateFailureResult(400, false, false, "Unsupported content type. Expected application/json.");
         }
 
-        string signatureHeaderName = FourthwallWebhookSignatureVerifier.GetHeaderName(options.SignatureMode);
-        string? providedSignature = request.GetFirstHeaderValue(signatureHeaderName);
-
-        if (!_signatureVerifier.Verify(request.Body, providedSignature, options.SigningSecret))
+        if (!string.IsNullOrEmpty(options.SigningSecret))
         {
-            return CreateFailureResult(401, false, false, $"The Fourthwall webhook signature in header '{signatureHeaderName}' was missing or invalid.");
+            string signatureHeaderName = FourthwallWebhookSignatureVerifier.GetHeaderName(options.SignatureMode);
+            string? providedSignature = request.GetFirstHeaderValue(signatureHeaderName);
+
+            if (!_signatureVerifier.Verify(request.Body, providedSignature, options.SigningSecret))
+            {
+                return CreateFailureResult(401, false, false, $"The Fourthwall webhook signature in header '{signatureHeaderName}' was missing or invalid.");
+            }
         }
 
         FourthwallWebhookEnvelope? envelope;

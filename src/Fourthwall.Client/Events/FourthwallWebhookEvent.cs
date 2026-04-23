@@ -6,6 +6,7 @@ namespace Fourthwall.Client.Events;
 /// </summary>
 public abstract record FourthwallWebhookEvent
 {
+
     /// <summary>
     /// Gets the unique event identifier.
     /// </summary>
