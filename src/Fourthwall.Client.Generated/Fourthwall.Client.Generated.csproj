@@ -97,4 +97,15 @@
     </ItemGroup>
   </Target>
 
+  <!-- Removes Generated/ as part of dotnet clean so Rebuild triggers a fresh Kiota run. -->
+  <Target Name="CleanKiotaOutput"
+          AfterTargets="CoreClean"
+          Condition="'$(SkipKiotaGeneration)' != 'true'">
+    <ItemGroup>
+      <_KiotaFilesToDelete Include="$(KiotaOutputDir)/**/*" />
+    </ItemGroup>
+    <Delete Files="@(_KiotaFilesToDelete)" />
+    <RemoveDir Directories="$(KiotaOutputDir)" />
+  </Target>
+
 </Project>
