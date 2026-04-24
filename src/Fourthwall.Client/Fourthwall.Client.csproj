@@ -23,7 +23,7 @@
 		<ProjectReference Include="..\Fourthwall.Client.Generated\Fourthwall.Client.Generated.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Agash.Webhook.Abstractions" Version="1.0.0" />
+		<PackageReference Include="Agash.Webhook.Abstractions" Version="1.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>

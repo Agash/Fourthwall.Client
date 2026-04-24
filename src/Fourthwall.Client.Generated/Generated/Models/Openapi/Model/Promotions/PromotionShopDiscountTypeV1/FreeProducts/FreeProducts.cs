@@ -88,11 +88,11 @@ namespace Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.PromotionS
                 if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
                 var mappingValue = parseNode.GetChildNode("type")?.GetStringValue();
                 var result = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.PromotionShopDiscountTypeV1.FreeProducts.FreeProducts.FreeProducts_freeProductsType();
-                if("com.fourthwall.openapi.model.promotions.PromotionShopDiscountTypeV1.FreeProducts.Type.AutoAdded".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                if("AUTO_ADDED".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.AutoAdded = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.PromotionShopDiscountTypeV1.FreeProducts.TypeNamespace.AutoAdded();
                 }
-                else if("com.fourthwall.openapi.model.promotions.PromotionShopDiscountTypeV1.FreeProducts.Type.ManuallyAdded".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("MANUALLY_ADDED".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.ManuallyAdded = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.PromotionShopDiscountTypeV1.FreeProducts.TypeNamespace.ManuallyAdded();
                 }

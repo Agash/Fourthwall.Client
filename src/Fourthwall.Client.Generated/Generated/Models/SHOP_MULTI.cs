@@ -134,15 +134,15 @@ namespace Fourthwall.Client.Generated.Models
                 if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
                 var mappingValue = parseNode.GetChildNode("type")?.GetStringValue();
                 var result = new global::Fourthwall.Client.Generated.Models.SHOP_MULTI.SHOP_MULTI_discount();
-                if("com.fourthwall.app.openapi.endpoint.model.requests.promotions.OpenApiPromotionDiscountType.Shop.FixedAmount".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                if("FLAT_RATE".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.FixedAmount = new global::Fourthwall.Client.Generated.Models.App.Openapi.Endpoint.Model.Requests.Promotions.OpenApiPromotionDiscountType.Shop.FixedAmount();
                 }
-                else if("com.fourthwall.app.openapi.endpoint.model.requests.promotions.OpenApiPromotionDiscountType.Shop.FreeShipping".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("FREE_SHIPPING".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.FreeShipping = new global::Fourthwall.Client.Generated.Models.App.Openapi.Endpoint.Model.Requests.Promotions.OpenApiPromotionDiscountType.Shop.FreeShipping();
                 }
-                else if("com.fourthwall.app.openapi.endpoint.model.requests.promotions.OpenApiPromotionDiscountType.Shop.Percentage".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("PERCENTAGE".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Percentage = new global::Fourthwall.Client.Generated.Models.App.Openapi.Endpoint.Model.Requests.Promotions.OpenApiPromotionDiscountType.Shop.Percentage();
                 }

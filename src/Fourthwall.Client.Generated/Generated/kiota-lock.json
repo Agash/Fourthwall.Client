@@ -2,7 +2,7 @@
   "descriptionHash": "54C59B206CC8765594ED8720C660505E44493F635C126CD0BC3281E1DDA76083715E62055CC7CD56FFAB3D38097557BCEE117D3E95D0616C080EF587FCCCE382",
   "descriptionLocation": "../../../specs/fourthwall-platform-open-api.yaml",
   "lockFileVersion": "1.0.0",
-  "kiotaVersion": "1.30.0",
+  "kiotaVersion": "1.31.1",
   "clientClassName": "FourthwallApiClient",
   "typeAccessModifier": "Public",
   "clientNamespaceName": "Fourthwall.Client.Generated",

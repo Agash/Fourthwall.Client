@@ -133,23 +133,23 @@ namespace Fourthwall.Client.Generated.Models.Openapi.Model.OpenApiPageResponseCo
                 if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
                 var mappingValue = parseNode.GetChildNode("type")?.GetStringValue();
                 var result = new global::Fourthwall.Client.Generated.Models.Openapi.Model.OpenApiPageResponseCom.Fourthwall.Openapi.Model.Promotions.PromotionV1.PromotionV1_results();
-                if("com.fourthwall.openapi.model.promotions.AutoApplyingShopPromotionV1".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                if("SHOP_AUTO_APPLYING".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.AutoApplyingShopPromotionV1 = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.AutoApplyingShopPromotionV1();
                 }
-                else if("com.fourthwall.openapi.model.promotions.MultiMembershipsPromotionV1".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("MEMBERSHIPS_MULTI".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.MultiMembershipsPromotionV1 = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.MultiMembershipsPromotionV1();
                 }
-                else if("com.fourthwall.openapi.model.promotions.MultiShopPromotionV1".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("SHOP_MULTI".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.MultiShopPromotionV1 = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.MultiShopPromotionV1();
                 }
-                else if("com.fourthwall.openapi.model.promotions.SingleMembershipsPromotionV1".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("MEMBERSHIPS_SINGLE".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.SingleMembershipsPromotionV1 = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.SingleMembershipsPromotionV1();
                 }
-                else if("com.fourthwall.openapi.model.promotions.SingleShopPromotionV1".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("SHOP_SINGLE".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.SingleShopPromotionV1 = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.SingleShopPromotionV1();
                 }

@@ -155,15 +155,15 @@ namespace Fourthwall.Client.Generated.Models.Openapi.Model
                 if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
                 var mappingValue = parseNode.GetChildNode("type")?.GetStringValue();
                 var result = new global::Fourthwall.Client.Generated.Models.Openapi.Model.CollectionSlimV1.CollectionSlimV1_state();
-                if("com.fourthwall.openapi.model.CollectionStateV1.Archived".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                if("ARCHIVED".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Archived = new global::Fourthwall.Client.Generated.Models.Openapi.Model.CollectionStateV1.Archived();
                 }
-                else if("com.fourthwall.openapi.model.CollectionStateV1.Hidden".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("HIDDEN".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Hidden = new global::Fourthwall.Client.Generated.Models.Openapi.Model.CollectionStateV1.Hidden();
                 }
-                else if("com.fourthwall.openapi.model.CollectionStateV1.Public".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("PUBLIC".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Public = new global::Fourthwall.Client.Generated.Models.Openapi.Model.CollectionStateV1.Public();
                 }

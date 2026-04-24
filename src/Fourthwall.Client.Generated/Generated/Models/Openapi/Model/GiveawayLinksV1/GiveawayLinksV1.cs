@@ -111,15 +111,15 @@ namespace Fourthwall.Client.Generated.Models.Openapi.Model.GiveawayLinksV1
                 if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
                 var mappingValue = parseNode.GetChildNode("status")?.GetStringValue();
                 var result = new global::Fourthwall.Client.Generated.Models.Openapi.Model.GiveawayLinksV1.GiveawayLinksV1.GiveawayLinksV1_giveawayLinks();
-                if("com.fourthwall.openapi.model.GiveawayLinksV1.GiveawayLinkV1.Available".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                if("AVAILABLE".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Available = new global::Fourthwall.Client.Generated.Models.Openapi.Model.GiveawayLinksV1.GiveawayLinkV1.Available();
                 }
-                else if("com.fourthwall.openapi.model.GiveawayLinksV1.GiveawayLinkV1.Cancelled".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("CANCELLED".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Cancelled = new global::Fourthwall.Client.Generated.Models.Openapi.Model.GiveawayLinksV1.GiveawayLinkV1.Cancelled();
                 }
-                else if("com.fourthwall.openapi.model.GiveawayLinksV1.GiveawayLinkV1.Redeemed".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("REDEEMED".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Redeemed = new global::Fourthwall.Client.Generated.Models.Openapi.Model.GiveawayLinksV1.GiveawayLinkV1.Redeemed();
                 }

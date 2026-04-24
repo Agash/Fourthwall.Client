@@ -214,11 +214,11 @@ namespace Fourthwall.Client.Generated.Models.Openapi.Model.OfferAbstractV1.Offer
                 if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
                 var mappingValue = parseNode.GetChildNode("type")?.GetStringValue();
                 var result = new global::Fourthwall.Client.Generated.Models.Openapi.Model.OfferAbstractV1.OfferVariantAbstractV1.OfferVariantV1.OfferVariantV1_stock();
-                if("com.fourthwall.openapi.model.OfferAbstractV1.OfferVariantAbstractV1.Stock.Limited".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                if("LIMITED".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Limited = new global::Fourthwall.Client.Generated.Models.Openapi.Model.OfferAbstractV1.OfferVariantAbstractV1.Stock.Limited();
                 }
-                else if("com.fourthwall.openapi.model.OfferAbstractV1.OfferVariantAbstractV1.Stock.Unlimited".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("UNLIMITED".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Unlimited = new global::Fourthwall.Client.Generated.Models.Openapi.Model.OfferAbstractV1.OfferVariantAbstractV1.Stock.Unlimited();
                 }

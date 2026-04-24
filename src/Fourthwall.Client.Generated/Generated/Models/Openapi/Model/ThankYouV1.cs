@@ -129,19 +129,19 @@ namespace Fourthwall.Client.Generated.Models.Openapi.Model
                 if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
                 var mappingValue = parseNode.GetChildNode("type")?.GetStringValue();
                 var result = new global::Fourthwall.Client.Generated.Models.Openapi.Model.ThankYouV1.ThankYouV1_contribution();
-                if("com.fourthwall.openapi.model.ThankYouContribution.Donation".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                if("DONATION".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Donation = new global::Fourthwall.Client.Generated.Models.Openapi.Model.ThankYouContribution.Donation();
                 }
-                else if("com.fourthwall.openapi.model.ThankYouContribution.GiftPurchase".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("GIFT_PURCHASE".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.GiftPurchase = new global::Fourthwall.Client.Generated.Models.Openapi.Model.ThankYouContribution.GiftPurchase();
                 }
-                else if("com.fourthwall.openapi.model.ThankYouContribution.Membership".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("MEMBERSHIP_PAYMENT_CHARGE".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Membership = new global::Fourthwall.Client.Generated.Models.Openapi.Model.ThankYouContribution.Membership();
                 }
-                else if("com.fourthwall.openapi.model.ThankYouContribution.Order".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("ORDER".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Order = new global::Fourthwall.Client.Generated.Models.Openapi.Model.ThankYouContribution.Order();
                 }

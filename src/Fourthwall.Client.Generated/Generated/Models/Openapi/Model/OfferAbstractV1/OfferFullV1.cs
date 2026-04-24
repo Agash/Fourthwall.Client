@@ -226,15 +226,15 @@ namespace Fourthwall.Client.Generated.Models.Openapi.Model.OfferAbstractV1
                 if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
                 var mappingValue = parseNode.GetChildNode("type")?.GetStringValue();
                 var result = new global::Fourthwall.Client.Generated.Models.Openapi.Model.OfferAbstractV1.OfferFullV1.OfferFullV1_access();
-                if("com.fourthwall.openapi.model.OfferAbstractV1.OfferAccessV1.Archived".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                if("ARCHIVED".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Archived = new global::Fourthwall.Client.Generated.Models.Openapi.Model.OfferAbstractV1.OfferAccessV1.Archived();
                 }
-                else if("com.fourthwall.openapi.model.OfferAbstractV1.OfferAccessV1.Hidden".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("HIDDEN".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Hidden = new global::Fourthwall.Client.Generated.Models.Openapi.Model.OfferAbstractV1.OfferAccessV1.Hidden();
                 }
-                else if("com.fourthwall.openapi.model.OfferAbstractV1.OfferAccessV1.Public".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("PUBLIC".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Public = new global::Fourthwall.Client.Generated.Models.Openapi.Model.OfferAbstractV1.OfferAccessV1.Public();
                 }
@@ -313,11 +313,11 @@ namespace Fourthwall.Client.Generated.Models.Openapi.Model.OfferAbstractV1
                 if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
                 var mappingValue = parseNode.GetChildNode("type")?.GetStringValue();
                 var result = new global::Fourthwall.Client.Generated.Models.Openapi.Model.OfferAbstractV1.OfferFullV1.OfferFullV1_state();
-                if("com.fourthwall.openapi.model.OfferAbstractV1.OfferStateV1.Available".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                if("AVAILABLE".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Available = new global::Fourthwall.Client.Generated.Models.Openapi.Model.OfferAbstractV1.OfferStateV1.Available();
                 }
-                else if("com.fourthwall.openapi.model.OfferAbstractV1.OfferStateV1.SoldOut".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("SOLD_OUT".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.SoldOut = new global::Fourthwall.Client.Generated.Models.Openapi.Model.OfferAbstractV1.OfferStateV1.SoldOut();
                 }

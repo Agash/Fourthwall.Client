@@ -153,15 +153,15 @@ namespace Fourthwall.Client.Generated.Models.Openapi.Model.Promotions
                 if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
                 var mappingValue = parseNode.GetChildNode("type")?.GetStringValue();
                 var result = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.SingleMembershipsPromotionV1.SingleMembershipsPromotionV1_subscriptionType();
-                if("com.fourthwall.openapi.model.promotions.PromotionMembershipsSubscriptionTypeAppliesToV1.AllMembers".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                if("ALL".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.AllMembers = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.PromotionMembershipsSubscriptionTypeAppliesToV1.AllMembers();
                 }
-                else if("com.fourthwall.openapi.model.promotions.PromotionMembershipsSubscriptionTypeAppliesToV1.AnnualMembersOnly".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("ANNUAL".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.AnnualMembersOnly = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.PromotionMembershipsSubscriptionTypeAppliesToV1.AnnualMembersOnly();
                 }
-                else if("com.fourthwall.openapi.model.promotions.PromotionMembershipsSubscriptionTypeAppliesToV1.MonthlyMembersOnly".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("MONTHLY".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.MonthlyMembersOnly = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.PromotionMembershipsSubscriptionTypeAppliesToV1.MonthlyMembersOnly();
                 }
@@ -240,11 +240,11 @@ namespace Fourthwall.Client.Generated.Models.Openapi.Model.Promotions
                 if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
                 var mappingValue = parseNode.GetChildNode("type")?.GetStringValue();
                 var result = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.SingleMembershipsPromotionV1.SingleMembershipsPromotionV1_tiers();
-                if("com.fourthwall.openapi.model.promotions.PromotionMembershipsTiersAppliesToV1.AllTiers".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                if("ALL".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.AllTiers = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.PromotionMembershipsTiersAppliesToV1.AllTiers();
                 }
-                else if("com.fourthwall.openapi.model.promotions.PromotionMembershipsTiersAppliesToV1.SelectedTiers".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("SELECTED".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.SelectedTiers = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.PromotionMembershipsTiersAppliesToV1.SelectedTiers();
                 }

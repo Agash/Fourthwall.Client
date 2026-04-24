@@ -21,7 +21,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Fourthwall.Client\Fourthwall.Client.csproj" />
-		<PackageReference Include="Agash.Webhook.Abstractions" Version="1.0.0" />
+		<PackageReference Include="Agash.Webhook.Abstractions" Version="1.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>

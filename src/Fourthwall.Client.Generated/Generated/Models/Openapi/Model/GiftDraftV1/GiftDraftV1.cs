@@ -220,23 +220,23 @@ namespace Fourthwall.Client.Generated.Models.Openapi.Model.GiftDraftV1
                 if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
                 var mappingValue = parseNode.GetChildNode("status")?.GetStringValue();
                 var result = new global::Fourthwall.Client.Generated.Models.Openapi.Model.GiftDraftV1.GiftDraftV1.GiftDraftV1_gifts();
-                if("com.fourthwall.openapi.model.GiftDraftV1.Gift.Available".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                if("AVAILABLE".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Available = new global::Fourthwall.Client.Generated.Models.Openapi.Model.GiftDraftV1.Gift.Available();
                 }
-                else if("com.fourthwall.openapi.model.GiftDraftV1.Gift.Cancelled".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("CANCELLED".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Cancelled = new global::Fourthwall.Client.Generated.Models.Openapi.Model.GiftDraftV1.Gift.Cancelled();
                 }
-                else if("com.fourthwall.openapi.model.GiftDraftV1.Gift.ChangedToGiftCard".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("CHANGED_TO_GIFT_CARD".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.ChangedToGiftCard = new global::Fourthwall.Client.Generated.Models.Openapi.Model.GiftDraftV1.Gift.ChangedToGiftCard();
                 }
-                else if("com.fourthwall.openapi.model.GiftDraftV1.Gift.ChangedToPromotion".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("CHANGED_TO_PROMOTION".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.ChangedToPromotion = new global::Fourthwall.Client.Generated.Models.Openapi.Model.GiftDraftV1.Gift.ChangedToPromotion();
                 }
-                else if("com.fourthwall.openapi.model.GiftDraftV1.Gift.Redeemed".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("REDEEMED".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Redeemed = new global::Fourthwall.Client.Generated.Models.Openapi.Model.GiftDraftV1.Gift.Redeemed();
                 }

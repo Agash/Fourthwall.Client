@@ -143,19 +143,19 @@ namespace Fourthwall.Client.Generated.Models.Openapi.Model.MembershipSupporterV1
                 if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
                 var mappingValue = parseNode.GetChildNode("type")?.GetStringValue();
                 var result = new global::Fourthwall.Client.Generated.Models.Openapi.Model.MembershipSupporterV1.MembershipSupporterV1.MembershipSupporterV1_subscription();
-                if("com.fourthwall.openapi.model.MembershipSupporterV1.Subscription.Active".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                if("ACTIVE".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Active = new global::Fourthwall.Client.Generated.Models.Openapi.Model.MembershipSupporterV1.Subscription.Active();
                 }
-                else if("com.fourthwall.openapi.model.MembershipSupporterV1.Subscription.Cancelled".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("CANCELLED".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Cancelled = new global::Fourthwall.Client.Generated.Models.Openapi.Model.MembershipSupporterV1.Subscription.Cancelled();
                 }
-                else if("com.fourthwall.openapi.model.MembershipSupporterV1.Subscription.None".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("NONE".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.None = new global::Fourthwall.Client.Generated.Models.Openapi.Model.MembershipSupporterV1.Subscription.None();
                 }
-                else if("com.fourthwall.openapi.model.MembershipSupporterV1.Subscription.Suspended".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("SUSPENDED".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Suspended = new global::Fourthwall.Client.Generated.Models.Openapi.Model.MembershipSupporterV1.Subscription.Suspended();
                 }

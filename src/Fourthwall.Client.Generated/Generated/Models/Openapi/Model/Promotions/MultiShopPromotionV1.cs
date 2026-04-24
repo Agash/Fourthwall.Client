@@ -163,15 +163,15 @@ namespace Fourthwall.Client.Generated.Models.Openapi.Model.Promotions
                 if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
                 var mappingValue = parseNode.GetChildNode("type")?.GetStringValue();
                 var result = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.MultiShopPromotionV1.MultiShopPromotionV1_appliesTo();
-                if("com.fourthwall.openapi.model.promotions.PromotionShopAppliesToV1.EntireOrder".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                if("ENTIRE_ORDER".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.EntireOrder = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.PromotionShopAppliesToV1.EntireOrder();
                 }
-                else if("com.fourthwall.openapi.model.promotions.PromotionShopAppliesToV1.EntireOrderWithExcludedProducts".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("ENTIRE_ORDER_WITH_EXCLUDED_PRODUCTS".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.EntireOrderWithExcludedProducts = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.PromotionShopAppliesToV1.EntireOrderWithExcludedProducts();
                 }
-                else if("com.fourthwall.openapi.model.promotions.PromotionShopAppliesToV1.SelectedProducts".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("SELECTED_PRODUCTS".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.SelectedProducts = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.PromotionShopAppliesToV1.SelectedProducts();
                 }
@@ -266,19 +266,19 @@ namespace Fourthwall.Client.Generated.Models.Openapi.Model.Promotions
                 if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
                 var mappingValue = parseNode.GetChildNode("type")?.GetStringValue();
                 var result = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.MultiShopPromotionV1.MultiShopPromotionV1_discount();
-                if("com.fourthwall.openapi.model.promotions.PromotionShopDiscountTypeV1.FixedAmount".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                if("FLAT_RATE".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.FixedAmount = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.PromotionShopDiscountTypeV1.FixedAmount();
                 }
-                else if("com.fourthwall.openapi.model.promotions.PromotionShopDiscountTypeV1.FreeProducts".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("FREE_PRODUCTS".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.FreeProducts = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.PromotionShopDiscountTypeV1.FreeProducts.FreeProducts();
                 }
-                else if("com.fourthwall.openapi.model.promotions.PromotionShopDiscountTypeV1.FreeShipping".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("FREE_SHIPPING".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.FreeShipping = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.PromotionShopDiscountTypeV1.FreeShipping();
                 }
-                else if("com.fourthwall.openapi.model.promotions.PromotionShopDiscountTypeV1.Percentage".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("PERCENTAGE".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Percentage = new global::Fourthwall.Client.Generated.Models.Openapi.Model.Promotions.PromotionShopDiscountTypeV1.Percentage();
                 }

@@ -266,19 +266,19 @@ namespace Fourthwall.Client.Generated.Models.Openapi.Model.OrderV1
                 if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
                 var mappingValue = parseNode.GetChildNode("type")?.GetStringValue();
                 var result = new global::Fourthwall.Client.Generated.Models.Openapi.Model.OrderV1.OrderV1.OrderV1_source();
-                if("com.fourthwall.openapi.model.OrderV1.Source.GiveawayLinks".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                if("GIVEAWAY_LINKS".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.GiveawayLinks = new global::Fourthwall.Client.Generated.Models.Openapi.Model.OrderV1.Source.GiveawayLinks();
                 }
-                else if("com.fourthwall.openapi.model.OrderV1.Source.Order".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("ORDER".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Order = new global::Fourthwall.Client.Generated.Models.Openapi.Model.OrderV1.Source.Order();
                 }
-                else if("com.fourthwall.openapi.model.OrderV1.Source.SamplesOrder".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("SAMPLES_ORDER".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.SamplesOrder = new global::Fourthwall.Client.Generated.Models.Openapi.Model.OrderV1.Source.SamplesOrder();
                 }
-                else if("com.fourthwall.openapi.model.OrderV1.Source.TwitchGiftRedemption".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                else if("TWITCH_GIFT_REDEMPTION".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.TwitchGiftRedemption = new global::Fourthwall.Client.Generated.Models.Openapi.Model.OrderV1.Source.TwitchGiftRedemption();
                 }
