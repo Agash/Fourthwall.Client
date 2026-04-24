@@ -95,7 +95,7 @@ namespace Fourthwall.Client.Generated.Models
             writer.WriteObjectValue<global::Fourthwall.Client.Generated.Models.App.Openapi.Endpoint.Model.Requests.Promotions.OpenApiPromotionRequirements.Shop>("requirements", Requirements);
         }
         /// <summary>
-        /// Composed type wrapper for classes <see cref="global::Fourthwall.Client.Generated.Models.App.Openapi.Endpoint.Model.Requests.Promotions.OpenApiPromotionDiscountType.Shop.FixedAmount"/>, <see cref="global::Fourthwall.Client.Generated.Models.App.Openapi.Endpoint.Model.Requests.Promotions.OpenApiPromotionDiscountType.Shop.Percentage"/>
+        /// Composed type wrapper for classes <see cref="global::Fourthwall.Client.Generated.Models.App.Openapi.Endpoint.Model.Requests.Promotions.OpenApiPromotionDiscountType.Shop.FixedAmount"/>, <see cref="global::Fourthwall.Client.Generated.Models.App.Openapi.Endpoint.Model.Requests.Promotions.OpenApiPromotionDiscountType.Shop.FreeShipping"/>, <see cref="global::Fourthwall.Client.Generated.Models.App.Openapi.Endpoint.Model.Requests.Promotions.OpenApiPromotionDiscountType.Shop.Percentage"/>
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class SHOP_MULTI_discount : IComposedTypeWrapper, IParsable
@@ -107,6 +107,14 @@ namespace Fourthwall.Client.Generated.Models
 #nullable restore
 #else
             public global::Fourthwall.Client.Generated.Models.App.Openapi.Endpoint.Model.Requests.Promotions.OpenApiPromotionDiscountType.Shop.FixedAmount FixedAmount { get; set; }
+#endif
+            /// <summary>Composed type representation for type <see cref="global::Fourthwall.Client.Generated.Models.App.Openapi.Endpoint.Model.Requests.Promotions.OpenApiPromotionDiscountType.Shop.FreeShipping"/></summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+            public global::Fourthwall.Client.Generated.Models.App.Openapi.Endpoint.Model.Requests.Promotions.OpenApiPromotionDiscountType.Shop.FreeShipping? FreeShipping { get; set; }
+#nullable restore
+#else
+            public global::Fourthwall.Client.Generated.Models.App.Openapi.Endpoint.Model.Requests.Promotions.OpenApiPromotionDiscountType.Shop.FreeShipping FreeShipping { get; set; }
 #endif
             /// <summary>Composed type representation for type <see cref="global::Fourthwall.Client.Generated.Models.App.Openapi.Endpoint.Model.Requests.Promotions.OpenApiPromotionDiscountType.Shop.Percentage"/></summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
@@ -130,6 +138,10 @@ namespace Fourthwall.Client.Generated.Models
                 {
                     result.FixedAmount = new global::Fourthwall.Client.Generated.Models.App.Openapi.Endpoint.Model.Requests.Promotions.OpenApiPromotionDiscountType.Shop.FixedAmount();
                 }
+                else if("com.fourthwall.app.openapi.endpoint.model.requests.promotions.OpenApiPromotionDiscountType.Shop.FreeShipping".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                {
+                    result.FreeShipping = new global::Fourthwall.Client.Generated.Models.App.Openapi.Endpoint.Model.Requests.Promotions.OpenApiPromotionDiscountType.Shop.FreeShipping();
+                }
                 else if("com.fourthwall.app.openapi.endpoint.model.requests.promotions.OpenApiPromotionDiscountType.Shop.Percentage".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Percentage = new global::Fourthwall.Client.Generated.Models.App.Openapi.Endpoint.Model.Requests.Promotions.OpenApiPromotionDiscountType.Shop.Percentage();
@@ -145,6 +157,10 @@ namespace Fourthwall.Client.Generated.Models
                 if(FixedAmount != null)
                 {
                     return FixedAmount.GetFieldDeserializers();
+                }
+                else if(FreeShipping != null)
+                {
+                    return FreeShipping.GetFieldDeserializers();
                 }
                 else if(Percentage != null)
                 {
@@ -162,6 +178,10 @@ namespace Fourthwall.Client.Generated.Models
                 if(FixedAmount != null)
                 {
                     writer.WriteObjectValue<global::Fourthwall.Client.Generated.Models.App.Openapi.Endpoint.Model.Requests.Promotions.OpenApiPromotionDiscountType.Shop.FixedAmount>(null, FixedAmount);
+                }
+                else if(FreeShipping != null)
+                {
+                    writer.WriteObjectValue<global::Fourthwall.Client.Generated.Models.App.Openapi.Endpoint.Model.Requests.Promotions.OpenApiPromotionDiscountType.Shop.FreeShipping>(null, FreeShipping);
                 }
                 else if(Percentage != null)
                 {

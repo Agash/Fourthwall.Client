@@ -400,6 +400,7 @@ internal static class SampleApplication
                         AllowedTypes =
                         [
                             WebhookConfigurationCreateRequest_allowedTypes.ORDER_PLACED,
+                            WebhookConfigurationCreateRequest_allowedTypes.ORDER_UPDATED,
                             WebhookConfigurationCreateRequest_allowedTypes.GIFT_PURCHASE,
                             WebhookConfigurationCreateRequest_allowedTypes.DONATION,
                             WebhookConfigurationCreateRequest_allowedTypes.SUBSCRIPTION_PURCHASED,

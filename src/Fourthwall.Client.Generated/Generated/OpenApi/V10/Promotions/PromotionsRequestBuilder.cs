@@ -37,7 +37,7 @@ namespace Fourthwall.Client.Generated.OpenApi.V10.Promotions
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public PromotionsRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/open-api/v1.0/promotions{?page*,size*}", pathParameters)
+        public PromotionsRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/open-api/v1.0/promotions{?codes*,page*,size*}", pathParameters)
         {
         }
         /// <summary>
@@ -45,7 +45,7 @@ namespace Fourthwall.Client.Generated.OpenApi.V10.Promotions
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public PromotionsRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/open-api/v1.0/promotions{?page*,size*}", rawUrl)
+        public PromotionsRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/open-api/v1.0/promotions{?codes*,page*,size*}", rawUrl)
         {
         }
         /// <summary>
@@ -413,6 +413,16 @@ namespace Fourthwall.Client.Generated.OpenApi.V10.Promotions
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class PromotionsRequestBuilderGetQueryParameters 
         {
+            /// <summary>Filter by promotion code(s)</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+            [QueryParameter("codes")]
+            public string[]? Codes { get; set; }
+#nullable restore
+#else
+            [QueryParameter("codes")]
+            public string[] Codes { get; set; }
+#endif
             [QueryParameter("page")]
             public int? Page { get; set; }
             [QueryParameter("size")]

@@ -30,6 +30,14 @@ namespace Fourthwall.Client.Generated.Models.Openapi.Model.OrderV1
 #else
         public global::Fourthwall.Client.Generated.Models.Money Donation { get; set; }
 #endif
+        /// <summary>The giftCards property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public List<global::Fourthwall.Client.Generated.Models.Openapi.Model.OrderV1.GiftCard>? GiftCards { get; set; }
+#nullable restore
+#else
+        public List<global::Fourthwall.Client.Generated.Models.Openapi.Model.OrderV1.GiftCard> GiftCards { get; set; }
+#endif
         /// <summary>The shipping property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -89,6 +97,7 @@ namespace Fourthwall.Client.Generated.Models.Openapi.Model.OrderV1
             {
                 { "discount", n => { Discount = n.GetObjectValue<global::Fourthwall.Client.Generated.Models.Money>(global::Fourthwall.Client.Generated.Models.Money.CreateFromDiscriminatorValue); } },
                 { "donation", n => { Donation = n.GetObjectValue<global::Fourthwall.Client.Generated.Models.Money>(global::Fourthwall.Client.Generated.Models.Money.CreateFromDiscriminatorValue); } },
+                { "giftCards", n => { GiftCards = n.GetCollectionOfObjectValues<global::Fourthwall.Client.Generated.Models.Openapi.Model.OrderV1.GiftCard>(global::Fourthwall.Client.Generated.Models.Openapi.Model.OrderV1.GiftCard.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "shipping", n => { Shipping = n.GetObjectValue<global::Fourthwall.Client.Generated.Models.Money>(global::Fourthwall.Client.Generated.Models.Money.CreateFromDiscriminatorValue); } },
                 { "subtotal", n => { Subtotal = n.GetObjectValue<global::Fourthwall.Client.Generated.Models.Money>(global::Fourthwall.Client.Generated.Models.Money.CreateFromDiscriminatorValue); } },
                 { "tax", n => { Tax = n.GetObjectValue<global::Fourthwall.Client.Generated.Models.Money>(global::Fourthwall.Client.Generated.Models.Money.CreateFromDiscriminatorValue); } },
@@ -104,6 +113,7 @@ namespace Fourthwall.Client.Generated.Models.Openapi.Model.OrderV1
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteObjectValue<global::Fourthwall.Client.Generated.Models.Money>("discount", Discount);
             writer.WriteObjectValue<global::Fourthwall.Client.Generated.Models.Money>("donation", Donation);
+            writer.WriteCollectionOfObjectValues<global::Fourthwall.Client.Generated.Models.Openapi.Model.OrderV1.GiftCard>("giftCards", GiftCards);
             writer.WriteObjectValue<global::Fourthwall.Client.Generated.Models.Money>("shipping", Shipping);
             writer.WriteObjectValue<global::Fourthwall.Client.Generated.Models.Money>("subtotal", Subtotal);
             writer.WriteObjectValue<global::Fourthwall.Client.Generated.Models.Money>("tax", Tax);
