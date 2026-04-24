@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -14,10 +14,26 @@
     <Description>Generated Kiota client for the Fourthwall Platform API.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
-	<NoWarn>CS1591</NoWarn>
+    <NoWarn>CS1591</NoWarn>
     <MinVerTagPrefix>v</MinVerTagPrefix>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
+  </PropertyGroup>
+
+  <!--
+    Kiota code-generation settings.
+
+    Normal build   : generation runs automatically when Generated/ is empty (e.g. fresh clone).
+    Refresh spec   : dotnet build -p:DownloadSpec=true  — downloads the latest spec then regenerates.
+    Skip entirely  : dotnet build -p:SkipKiotaGeneration=true  — skip auto-generation (CI with pre-generated output).
+  -->
+  <PropertyGroup>
+    <KiotaSpecUrl>https://docs.fourthwall.com/open-api-docs/open-api.yaml</KiotaSpecUrl>
+    <KiotaSpecFile>$([MSBuild]::NormalizePath($(MSBuildThisFileDirectory), '..', '..', 'specs', 'fourthwall-platform-open-api.yaml'))</KiotaSpecFile>
+    <KiotaSpecsDir>$([MSBuild]::NormalizePath($(MSBuildThisFileDirectory), '..', '..', 'specs'))</KiotaSpecsDir>
+    <KiotaOutputDir>$([MSBuild]::NormalizePath($(MSBuildThisFileDirectory), 'Generated'))</KiotaOutputDir>
+    <DownloadSpec>false</DownloadSpec>
+    <SkipKiotaGeneration>false</SkipKiotaGeneration>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,4 +48,53 @@
     <PackageReference Include="MinVer" Version="7.0.0" PrivateAssets="all" />
     <PackageReference Include="DotNet.ReproducibleBuilds" Version="2.0.2" PrivateAssets="all" />
   </ItemGroup>
+
+  <!-- Downloads the latest spec. Only runs when DownloadSpec=true. -->
+  <Target Name="DownloadFourthwallSpec"
+          BeforeTargets="RegenerateKiotaClient"
+          Condition="'$(DownloadSpec)' == 'true' and '$(SkipKiotaGeneration)' != 'true'">
+    <Message Importance="high" Text="[Fourthwall.Client.Generated] Downloading OpenAPI spec from $(KiotaSpecUrl)..." />
+    <DownloadFile
+      SourceUrl="$(KiotaSpecUrl)"
+      DestinationFolder="$(KiotaSpecsDir)"
+      DestinationFileName="fourthwall-platform-open-api.yaml"
+      SkipUnchangedFiles="false" />
+    <Message Importance="high" Text="[Fourthwall.Client.Generated] Spec written to $(KiotaSpecFile)." />
+  </Target>
+
+  <!--
+    Auto-runs Kiota generation before CoreCompile when:
+      - Generated/ contains no .cs files (fresh clone / after clean), OR
+      - DownloadSpec=true was passed (spec was just refreshed).
+    Newly generated files are explicitly added to the Compile item group so they
+    participate in the current compilation pass even on the very first build.
+    Requires the 'kiota' global tool: dotnet tool install -g Microsoft.OpenApi.Kiota
+  -->
+  <Target Name="RegenerateKiotaClient"
+          BeforeTargets="CoreCompile"
+          Condition="'$(SkipKiotaGeneration)' != 'true'">
+
+    <ItemGroup>
+      <_ExistingGeneratedFiles Include="$(KiotaOutputDir)/**/*.cs" />
+    </ItemGroup>
+
+    <PropertyGroup>
+      <_NeedsGeneration Condition="'@(_ExistingGeneratedFiles)' == '' or '$(DownloadSpec)' == 'true'">true</_NeedsGeneration>
+      <_NeedsGeneration Condition="'$(_NeedsGeneration)' == ''">false</_NeedsGeneration>
+    </PropertyGroup>
+
+    <Message Importance="high"
+             Condition="'$(_NeedsGeneration)' == 'true'"
+             Text="[Fourthwall.Client.Generated] Running Kiota generation (requires 'kiota' global tool: dotnet tool install --global Microsoft.OpenApi.Kiota)..." />
+
+    <Exec Condition="'$(_NeedsGeneration)' == 'true'"
+          Command="kiota generate --language CSharp --openapi &quot;$(KiotaSpecFile)&quot; --output &quot;$(KiotaOutputDir)&quot; --namespace-name Fourthwall.Client.Generated --class-name FourthwallApiClient --clean-output" />
+
+    <!-- Add generated files to Compile so a first-time generation isn't a two-pass affair. -->
+    <ItemGroup Condition="'$(_NeedsGeneration)' == 'true'">
+      <Compile Remove="$(KiotaOutputDir)/**/*.cs" />
+      <Compile Include="$(KiotaOutputDir)/**/*.cs" />
+    </ItemGroup>
+  </Target>
+
 </Project>
