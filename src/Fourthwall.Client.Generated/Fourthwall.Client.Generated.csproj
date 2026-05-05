@@ -74,8 +74,9 @@
           BeforeTargets="CoreCompile"
           Condition="'$(SkipKiotaGeneration)' != 'true'">
 
+    <!-- Use relative paths so globs work regardless of OS path-separator in $(KiotaOutputDir). -->
     <ItemGroup>
-      <_ExistingGeneratedFiles Include="$(KiotaOutputDir)/**/*.cs" />
+      <_ExistingGeneratedFiles Include="Generated/**/*.cs" />
     </ItemGroup>
 
     <PropertyGroup>
@@ -85,15 +86,15 @@
 
     <Message Importance="high"
              Condition="'$(_NeedsGeneration)' == 'true'"
-             Text="[Fourthwall.Client.Generated] Running Kiota generation (requires 'kiota' global tool: dotnet tool install --global Microsoft.OpenApi.Kiota)..." />
+             Text="[Fourthwall.Client.Generated] Running Kiota generation (requires 'kiota' global tool: dotnet tool install -g Microsoft.OpenApi.Kiota)..." />
 
     <Exec Condition="'$(_NeedsGeneration)' == 'true'"
           Command="kiota generate --language CSharp --openapi &quot;$(KiotaSpecFile)&quot; --output &quot;$(KiotaOutputDir)&quot; --namespace-name Fourthwall.Client.Generated --class-name FourthwallApiClient --clean-output" />
 
     <!-- Add generated files to Compile so a first-time generation isn't a two-pass affair. -->
     <ItemGroup Condition="'$(_NeedsGeneration)' == 'true'">
-      <Compile Remove="$(KiotaOutputDir)/**/*.cs" />
-      <Compile Include="$(KiotaOutputDir)/**/*.cs" />
+      <Compile Remove="Generated/**/*.cs" />
+      <Compile Include="Generated/**/*.cs" />
     </ItemGroup>
   </Target>
 
@@ -101,8 +102,10 @@
   <Target Name="CleanKiotaOutput"
           AfterTargets="CoreClean"
           Condition="'$(SkipKiotaGeneration)' != 'true'">
+    <!-- Use relative path glob — $(KiotaOutputDir) uses OS-native separators that
+         MSBuild's glob engine won't mix with the wildcard forward-slashes. -->
     <ItemGroup>
-      <_KiotaFilesToDelete Include="$(KiotaOutputDir)/**/*" />
+      <_KiotaFilesToDelete Include="Generated/**/*" />
     </ItemGroup>
     <Delete Files="@(_KiotaFilesToDelete)" />
     <RemoveDir Directories="$(KiotaOutputDir)" />
