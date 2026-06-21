@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MinVer" Version="7.0.0" PrivateAssets="all" />
-    <PackageReference Include="DotNet.ReproducibleBuilds" Version="2.0.2" PrivateAssets="all" />
+    <PackageReference Include="DotNet.ReproducibleBuilds" Version="2.0.5" PrivateAssets="all" />
   </ItemGroup>
 
   <!-- Downloads the latest spec. Only runs when DownloadSpec=true. -->
