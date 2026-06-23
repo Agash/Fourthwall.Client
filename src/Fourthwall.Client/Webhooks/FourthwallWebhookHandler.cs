@@ -1,4 +1,4 @@
-using Agash.Webhook.Abstractions;
+﻿using Agash.Webhook.Abstractions;
 using Fourthwall.Client.Abstractions;
 using Fourthwall.Client.Events;
 using Fourthwall.Client.Json;
@@ -9,7 +9,6 @@ using Fourthwall.Client.Generated.Models.Openapi.Model.GiftPurchaseV1;
 using Fourthwall.Client.Generated.Models.Openapi.Model.MembershipSupporterV1;
 using Fourthwall.Client.Generated.Models.Openapi.Model.OrderV1;
 using Microsoft.Kiota.Abstractions.Serialization;
-using Microsoft.Kiota.Serialization.Json;
 using System.Text.Json;
 
 namespace Fourthwall.Client.Webhooks;
@@ -102,81 +101,116 @@ public sealed class FourthwallWebhookHandler : IFourthwallWebhookHandler
         switch (envelope.Type)
         {
             case FourthwallWebhookEventType.OrderPlaced:
-            {
-                OrderV1? data = await TryDeserializeAsync(rawData, OrderV1.CreateFromDiscriminatorValue, cancellationToken).ConfigureAwait(false);
-                return data is null ? null : new FourthwallOrderPlacedWebhookEvent
                 {
-                    Id = envelope.Id, WebhookId = envelope.WebhookId, ShopId = envelope.ShopId,
-                    Type = envelope.Type, ApiVersion = envelope.ApiVersion,
-                    CreatedAt = envelope.CreatedAt, TestMode = envelope.TestMode, Data = data,
-                };
-            }
+                    OrderV1? data = await TryDeserializeAsync(rawData, OrderV1.CreateFromDiscriminatorValue, cancellationToken).ConfigureAwait(false);
+                    return data is null ? null : new FourthwallOrderPlacedWebhookEvent
+                    {
+                        Id = envelope.Id,
+                        WebhookId = envelope.WebhookId,
+                        ShopId = envelope.ShopId,
+                        Type = envelope.Type,
+                        ApiVersion = envelope.ApiVersion,
+                        CreatedAt = envelope.CreatedAt,
+                        TestMode = envelope.TestMode,
+                        Data = data,
+                    };
+                }
 
             case FourthwallWebhookEventType.OrderUpdated:
-            {
-                OrderUpdatedV1? data = await TryDeserializeAsync(rawData, OrderUpdatedV1.CreateFromDiscriminatorValue, cancellationToken).ConfigureAwait(false);
-                return data is null ? null : new FourthwallOrderUpdatedWebhookEvent
                 {
-                    Id = envelope.Id, WebhookId = envelope.WebhookId, ShopId = envelope.ShopId,
-                    Type = envelope.Type, ApiVersion = envelope.ApiVersion,
-                    CreatedAt = envelope.CreatedAt, TestMode = envelope.TestMode, Data = data,
-                };
-            }
+                    OrderUpdatedV1? data = await TryDeserializeAsync(rawData, OrderUpdatedV1.CreateFromDiscriminatorValue, cancellationToken).ConfigureAwait(false);
+                    return data is null ? null : new FourthwallOrderUpdatedWebhookEvent
+                    {
+                        Id = envelope.Id,
+                        WebhookId = envelope.WebhookId,
+                        ShopId = envelope.ShopId,
+                        Type = envelope.Type,
+                        ApiVersion = envelope.ApiVersion,
+                        CreatedAt = envelope.CreatedAt,
+                        TestMode = envelope.TestMode,
+                        Data = data,
+                    };
+                }
 
             case FourthwallWebhookEventType.Donation:
-            {
-                DonationV1? data = await TryDeserializeAsync(rawData, DonationV1.CreateFromDiscriminatorValue, cancellationToken).ConfigureAwait(false);
-                return data is null ? null : new FourthwallDonationWebhookEvent
                 {
-                    Id = envelope.Id, WebhookId = envelope.WebhookId, ShopId = envelope.ShopId,
-                    Type = envelope.Type, ApiVersion = envelope.ApiVersion,
-                    CreatedAt = envelope.CreatedAt, TestMode = envelope.TestMode, Data = data,
-                };
-            }
+                    DonationV1? data = await TryDeserializeAsync(rawData, DonationV1.CreateFromDiscriminatorValue, cancellationToken).ConfigureAwait(false);
+                    return data is null ? null : new FourthwallDonationWebhookEvent
+                    {
+                        Id = envelope.Id,
+                        WebhookId = envelope.WebhookId,
+                        ShopId = envelope.ShopId,
+                        Type = envelope.Type,
+                        ApiVersion = envelope.ApiVersion,
+                        CreatedAt = envelope.CreatedAt,
+                        TestMode = envelope.TestMode,
+                        Data = data,
+                    };
+                }
 
             case FourthwallWebhookEventType.SubscriptionPurchased:
-            {
-                MembershipSupporterV1? data = await TryDeserializeAsync(rawData, MembershipSupporterV1.CreateFromDiscriminatorValue, cancellationToken).ConfigureAwait(false);
-                return data is null ? null : new FourthwallSubscriptionPurchasedWebhookEvent
                 {
-                    Id = envelope.Id, WebhookId = envelope.WebhookId, ShopId = envelope.ShopId,
-                    Type = envelope.Type, ApiVersion = envelope.ApiVersion,
-                    CreatedAt = envelope.CreatedAt, TestMode = envelope.TestMode, Data = data,
-                };
-            }
+                    MembershipSupporterV1? data = await TryDeserializeAsync(rawData, MembershipSupporterV1.CreateFromDiscriminatorValue, cancellationToken).ConfigureAwait(false);
+                    return data is null ? null : new FourthwallSubscriptionPurchasedWebhookEvent
+                    {
+                        Id = envelope.Id,
+                        WebhookId = envelope.WebhookId,
+                        ShopId = envelope.ShopId,
+                        Type = envelope.Type,
+                        ApiVersion = envelope.ApiVersion,
+                        CreatedAt = envelope.CreatedAt,
+                        TestMode = envelope.TestMode,
+                        Data = data,
+                    };
+                }
 
             case FourthwallWebhookEventType.SubscriptionExpired:
-            {
-                MembershipSupporterV1? data = await TryDeserializeAsync(rawData, MembershipSupporterV1.CreateFromDiscriminatorValue, cancellationToken).ConfigureAwait(false);
-                return data is null ? null : new FourthwallSubscriptionExpiredWebhookEvent
                 {
-                    Id = envelope.Id, WebhookId = envelope.WebhookId, ShopId = envelope.ShopId,
-                    Type = envelope.Type, ApiVersion = envelope.ApiVersion,
-                    CreatedAt = envelope.CreatedAt, TestMode = envelope.TestMode, Data = data,
-                };
-            }
+                    MembershipSupporterV1? data = await TryDeserializeAsync(rawData, MembershipSupporterV1.CreateFromDiscriminatorValue, cancellationToken).ConfigureAwait(false);
+                    return data is null ? null : new FourthwallSubscriptionExpiredWebhookEvent
+                    {
+                        Id = envelope.Id,
+                        WebhookId = envelope.WebhookId,
+                        ShopId = envelope.ShopId,
+                        Type = envelope.Type,
+                        ApiVersion = envelope.ApiVersion,
+                        CreatedAt = envelope.CreatedAt,
+                        TestMode = envelope.TestMode,
+                        Data = data,
+                    };
+                }
 
             case FourthwallWebhookEventType.SubscriptionChanged:
-            {
-                MembershipSupporterV1? data = await TryDeserializeAsync(rawData, MembershipSupporterV1.CreateFromDiscriminatorValue, cancellationToken).ConfigureAwait(false);
-                return data is null ? null : new FourthwallSubscriptionChangedWebhookEvent
                 {
-                    Id = envelope.Id, WebhookId = envelope.WebhookId, ShopId = envelope.ShopId,
-                    Type = envelope.Type, ApiVersion = envelope.ApiVersion,
-                    CreatedAt = envelope.CreatedAt, TestMode = envelope.TestMode, Data = data,
-                };
-            }
+                    MembershipSupporterV1? data = await TryDeserializeAsync(rawData, MembershipSupporterV1.CreateFromDiscriminatorValue, cancellationToken).ConfigureAwait(false);
+                    return data is null ? null : new FourthwallSubscriptionChangedWebhookEvent
+                    {
+                        Id = envelope.Id,
+                        WebhookId = envelope.WebhookId,
+                        ShopId = envelope.ShopId,
+                        Type = envelope.Type,
+                        ApiVersion = envelope.ApiVersion,
+                        CreatedAt = envelope.CreatedAt,
+                        TestMode = envelope.TestMode,
+                        Data = data,
+                    };
+                }
 
             case FourthwallWebhookEventType.GiftPurchase:
-            {
-                GiftPurchaseV1? data = await TryDeserializeAsync(rawData, GiftPurchaseV1.CreateFromDiscriminatorValue, cancellationToken).ConfigureAwait(false);
-                return data is null ? null : new FourthwallGiftPurchaseWebhookEvent
                 {
-                    Id = envelope.Id, WebhookId = envelope.WebhookId, ShopId = envelope.ShopId,
-                    Type = envelope.Type, ApiVersion = envelope.ApiVersion,
-                    CreatedAt = envelope.CreatedAt, TestMode = envelope.TestMode, Data = data,
-                };
-            }
+                    GiftPurchaseV1? data = await TryDeserializeAsync(rawData, GiftPurchaseV1.CreateFromDiscriminatorValue, cancellationToken).ConfigureAwait(false);
+                    return data is null ? null : new FourthwallGiftPurchaseWebhookEvent
+                    {
+                        Id = envelope.Id,
+                        WebhookId = envelope.WebhookId,
+                        ShopId = envelope.ShopId,
+                        Type = envelope.Type,
+                        ApiVersion = envelope.ApiVersion,
+                        CreatedAt = envelope.CreatedAt,
+                        TestMode = envelope.TestMode,
+                        Data = data,
+                    };
+                }
 
             default:
                 return new FourthwallUnknownWebhookEvent

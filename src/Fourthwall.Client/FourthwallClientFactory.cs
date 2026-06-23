@@ -12,7 +12,7 @@ namespace Fourthwall.Client;
 /// </summary>
 public sealed class FourthwallClientFactory : IFourthwallClientFactory
 {
-    private static readonly Uri BaseUri = new("https://api.fourthwall.com");
+    private static readonly Uri _baseUri = new("https://api.fourthwall.com");
 
     /// <inheritdoc />
     public FourthwallApiClient CreateWithBasicAuth(FourthwallBasicAuthOptions options)
@@ -34,7 +34,7 @@ public sealed class FourthwallClientFactory : IFourthwallClientFactory
     {
         HttpClientRequestAdapter adapter = new(authenticationProvider)
         {
-            BaseUrl = BaseUri.ToString(),
+            BaseUrl = _baseUri.ToString(),
         };
 
         return new FourthwallApiClient(adapter);

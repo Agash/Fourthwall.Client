@@ -34,6 +34,7 @@ public sealed class FourthwallWebhookSignatureVerifier
     /// <see langword="true"/> when the provided signature matches the computed base64 HMAC-SHA256 digest;
     /// otherwise <see langword="false"/>.
     /// </returns>
+#pragma warning disable CA1822 // Instance method by design: this is a DI-registered injectable seam.
     public bool Verify(byte[] body, string? providedSignature, string signingSecret)
     {
         ArgumentNullException.ThrowIfNull(body);
@@ -50,6 +51,7 @@ public sealed class FourthwallWebhookSignatureVerifier
 
         return ConstantTimeStringComparer.Equals(expectedSignature, providedSignature);
     }
+#pragma warning restore CA1822
 
     /// <summary>
     /// Gets the expected header name for the specified signature mode.

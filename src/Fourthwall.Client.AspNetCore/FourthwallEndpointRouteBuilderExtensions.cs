@@ -38,7 +38,7 @@ public static class FourthwallEndpointRouteBuilderExtensions
 
         configure(options);
 
-        return endpoints.MapPost(pattern, async (HttpContext context) =>
+        return endpoints.MapPost(pattern, async context =>
         {
             IFourthwallWebhookHandler handler = context.RequestServices.GetRequiredService<IFourthwallWebhookHandler>();
 

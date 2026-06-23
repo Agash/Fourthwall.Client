@@ -6,6 +6,7 @@
 		<LangVersion>preview</LangVersion>
 		<IsPackable>false</IsPackable>
 		<EnableMicrosoftTestingPlatformRunner>true</EnableMicrosoftTestingPlatformRunner>
+		<NoWarn>$(NoWarn);IDE0005;IDE0058;IDE1006;CA1707</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
