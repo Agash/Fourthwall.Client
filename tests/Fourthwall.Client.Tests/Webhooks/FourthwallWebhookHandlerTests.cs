@@ -1,5 +1,4 @@
 using Agash.Webhook.Abstractions;
-using FluentAssertions;
 using Fourthwall.Client.Events;
 using Fourthwall.Client.Options;
 using Fourthwall.Client.Webhooks;
@@ -42,9 +41,9 @@ public sealed class FourthwallWebhookHandlerTests
         WebhookHandleResult<FourthwallWebhookEvent> result =
             await _handler.HandleAsync(request, options);
 
-        result.Response.StatusCode.Should().Be(200);
-        result.IsAuthenticated.Should().BeTrue();
-        result.Event.Should().NotBeNull();
+        Assert.AreEqual(200, result.Response.StatusCode);
+        Assert.IsTrue(result.IsAuthenticated);
+        Assert.IsNotNull(result.Event);
     }
 
     [TestMethod]
@@ -56,9 +55,9 @@ public sealed class FourthwallWebhookHandlerTests
         WebhookHandleResult<FourthwallWebhookEvent> result =
             await _handler.HandleAsync(request, options);
 
-        result.Response.StatusCode.Should().Be(200);
-        result.IsAuthenticated.Should().BeTrue();
-        result.Event.Should().NotBeNull();
+        Assert.AreEqual(200, result.Response.StatusCode);
+        Assert.IsTrue(result.IsAuthenticated);
+        Assert.IsNotNull(result.Event);
     }
 
     [TestMethod]
@@ -71,8 +70,8 @@ public sealed class FourthwallWebhookHandlerTests
         WebhookHandleResult<FourthwallWebhookEvent> result =
             await _handler.HandleAsync(request, options);
 
-        result.Response.StatusCode.Should().Be(200);
-        result.Event.Should().NotBeNull();
+        Assert.AreEqual(200, result.Response.StatusCode);
+        Assert.IsNotNull(result.Event);
     }
 
     [TestMethod]
@@ -85,10 +84,10 @@ public sealed class FourthwallWebhookHandlerTests
         WebhookHandleResult<FourthwallWebhookEvent> result =
             await _handler.HandleAsync(request, options);
 
-        result.Response.StatusCode.Should().Be(400);
+        Assert.AreEqual(400, result.Response.StatusCode);
         // IsAuthenticated reflects that the auth/skip step passed — the failure is in content parsing.
-        result.IsAuthenticated.Should().BeTrue();
-        result.Event.Should().BeNull();
+        Assert.IsTrue(result.IsAuthenticated);
+        Assert.IsNull(result.Event);
     }
 
     // ── With signing secret — verification enforced ───────────────────────────
@@ -113,9 +112,9 @@ public sealed class FourthwallWebhookHandlerTests
         WebhookHandleResult<FourthwallWebhookEvent> result =
             await _handler.HandleAsync(request, options);
 
-        result.Response.StatusCode.Should().Be(200);
-        result.IsAuthenticated.Should().BeTrue();
-        result.Event.Should().NotBeNull();
+        Assert.AreEqual(200, result.Response.StatusCode);
+        Assert.IsTrue(result.IsAuthenticated);
+        Assert.IsNotNull(result.Event);
     }
 
     [TestMethod]
@@ -138,8 +137,8 @@ public sealed class FourthwallWebhookHandlerTests
         WebhookHandleResult<FourthwallWebhookEvent> result =
             await _handler.HandleAsync(request, options);
 
-        result.Response.StatusCode.Should().Be(200);
-        result.IsAuthenticated.Should().BeTrue();
+        Assert.AreEqual(200, result.Response.StatusCode);
+        Assert.IsTrue(result.IsAuthenticated);
     }
 
     [TestMethod]
@@ -151,9 +150,9 @@ public sealed class FourthwallWebhookHandlerTests
         WebhookHandleResult<FourthwallWebhookEvent> result =
             await _handler.HandleAsync(request, options);
 
-        result.Response.StatusCode.Should().Be(401);
-        result.IsAuthenticated.Should().BeFalse();
-        result.Event.Should().BeNull();
+        Assert.AreEqual(401, result.Response.StatusCode);
+        Assert.IsFalse(result.IsAuthenticated);
+        Assert.IsNull(result.Event);
     }
 
     [TestMethod]
@@ -169,9 +168,9 @@ public sealed class FourthwallWebhookHandlerTests
         WebhookHandleResult<FourthwallWebhookEvent> result =
             await _handler.HandleAsync(request, options);
 
-        result.Response.StatusCode.Should().Be(401);
-        result.IsAuthenticated.Should().BeFalse();
-        result.Event.Should().BeNull();
+        Assert.AreEqual(401, result.Response.StatusCode);
+        Assert.IsFalse(result.IsAuthenticated);
+        Assert.IsNull(result.Event);
     }
 
     [TestMethod]
@@ -190,8 +189,8 @@ public sealed class FourthwallWebhookHandlerTests
         WebhookHandleResult<FourthwallWebhookEvent> result =
             await _handler.HandleAsync(request, options);
 
-        result.Response.StatusCode.Should().Be(401);
-        result.IsAuthenticated.Should().BeFalse();
+        Assert.AreEqual(401, result.Response.StatusCode);
+        Assert.IsFalse(result.IsAuthenticated);
     }
 
     // ── Method / content-type guards (independent of signing secret) ──────────
@@ -208,7 +207,7 @@ public sealed class FourthwallWebhookHandlerTests
         WebhookHandleResult<FourthwallWebhookEvent> result =
             await _handler.HandleAsync(request, options);
 
-        result.Response.StatusCode.Should().Be(405);
+        Assert.AreEqual(405, result.Response.StatusCode);
     }
 
     [TestMethod]
@@ -220,7 +219,7 @@ public sealed class FourthwallWebhookHandlerTests
         WebhookHandleResult<FourthwallWebhookEvent> result =
             await _handler.HandleAsync(request, options);
 
-        result.Response.StatusCode.Should().Be(400);
+        Assert.AreEqual(400, result.Response.StatusCode);
     }
 
     // ── Helpers ───────────────────────────────────────────────────────────────
