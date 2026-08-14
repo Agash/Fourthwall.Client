@@ -10,7 +10,6 @@
 		<IsPackable>true</IsPackable>
 		<PackageId>Fourthwall.Client.AspNetCore</PackageId>
 		<MinVerTagPrefix>v</MinVerTagPrefix>
-		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<Title>Fourthwall.Client.AspNetCore</Title>
 		<Authors>Agash</Authors>
