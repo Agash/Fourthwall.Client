@@ -1,7 +1,7 @@
-﻿using Fourthwall.Client.Internal;
-using Fourthwall.Client.Options;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
+using Fourthwall.Client.Internal;
+using Fourthwall.Client.Options;
 
 namespace Fourthwall.Client.Webhooks;
 
@@ -63,8 +63,13 @@ public sealed class FourthwallWebhookSignatureVerifier
         return mode switch
         {
             FourthwallWebhookSignatureMode.ShopWebhook => ShopWebhookSignatureHeaderName,
-            FourthwallWebhookSignatureMode.PlatformAppWebhook => PlatformAppWebhookSignatureHeaderName,
-            _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, "Unsupported signature mode."),
+            FourthwallWebhookSignatureMode.PlatformAppWebhook =>
+                PlatformAppWebhookSignatureHeaderName,
+            _ => throw new ArgumentOutOfRangeException(
+                nameof(mode),
+                mode,
+                "Unsupported signature mode."
+            ),
         };
     }
 }

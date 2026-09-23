@@ -1,6 +1,9 @@
 <Solution>
   <Folder Name="/samples/">
-    <Project Path="samples/Fourthwall.Client.Sample/Fourthwall.Client.Sample.csproj" Id="1f7be09f-a941-4222-865d-767243a18a9a" />
+    <Project
+      Path="samples/Fourthwall.Client.Sample/Fourthwall.Client.Sample.csproj"
+      Id="1f7be09f-a941-4222-865d-767243a18a9a"
+    />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/Fourthwall.Client.AspNetCore/Fourthwall.Client.AspNetCore.csproj" />

@@ -1,6 +1,6 @@
-﻿using Microsoft.Kiota.Abstractions;
+﻿using System.Text;
+using Microsoft.Kiota.Abstractions;
 using Microsoft.Kiota.Abstractions.Authentication;
-using System.Text;
 
 namespace Fourthwall.Client.Authentication;
 
@@ -30,7 +30,8 @@ public sealed class FourthwallBasicAuthenticationProvider : IAuthenticationProvi
     public Task AuthenticateRequestAsync(
         RequestInformation request,
         Dictionary<string, object>? additionalAuthenticationContext = null,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         ArgumentNullException.ThrowIfNull(request);
 

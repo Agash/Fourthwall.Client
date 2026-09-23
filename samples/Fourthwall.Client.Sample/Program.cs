@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using DevTunnels.Client;
 using DevTunnels.Client.Authentication;
 using DevTunnels.Client.Hosting;
@@ -15,7 +16,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Spectre.Console;
-using System.Collections.Concurrent;
 
 CancellationTokenSource shutdown = new();
 
@@ -45,11 +45,11 @@ internal static class SampleApplication
     {
         AnsiConsole.Clear();
 
-        AnsiConsole.Write(
-            new FigletText("Fourthwall Sample")
-                .Color(Color.CornflowerBlue));
+        AnsiConsole.Write(new FigletText("Fourthwall Sample").Color(Color.CornflowerBlue));
 
-        AnsiConsole.MarkupLine("[grey]Fourthwall Platform API + webhook sample with ASP.NET Core, auto-registration, and Azure Dev Tunnels.[/]");
+        AnsiConsole.MarkupLine(
+            "[grey]Fourthwall Platform API + webhook sample with ASP.NET Core, auto-registration, and Azure Dev Tunnels.[/]"
+        );
         AnsiConsole.WriteLine();
 
         SampleConfiguration configuration = PromptConfiguration();
@@ -67,10 +67,13 @@ internal static class SampleApplication
 
         app.MapGet(
             "/",
-            () => Results.Text(
-                "Fourthwall.Client.Sample is running.\n" +
-                "POST Fourthwall webhook payloads to the configured route.\n",
-                "text/plain"));
+            () =>
+                Results.Text(
+                    "Fourthwall.Client.Sample is running.\n"
+                        + "POST Fourthwall webhook payloads to the configured route.\n",
+                    "text/plain"
+                )
+        );
 
         app.MapFourthwallWebhook(
             configuration.WebhookPath,
@@ -98,7 +101,8 @@ internal static class SampleApplication
             {
                 lock (consoleLock)
                 {
-                    string remoteIp = httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+                    string remoteIp =
+                        httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
                     string requestId = httpContext.TraceIdentifier;
 
                     string auth = result.IsAuthenticated ? "[green]yes[/]" : "[red]no[/]";
@@ -106,16 +110,20 @@ internal static class SampleApplication
                     string status = $"[blue]{result.Response.StatusCode}[/]";
 
                     AnsiConsole.MarkupLineInterpolated(
-                        $"[grey]Request[/] [white]{Markup.Escape(requestId)}[/] from [white]{Markup.Escape(remoteIp)}[/] -> status {status}, authenticated {auth}, known event {known}.");
+                        $"[grey]Request[/] [white]{Markup.Escape(requestId)}[/] from [white]{Markup.Escape(remoteIp)}[/] -> status {status}, authenticated {auth}, known event {known}."
+                    );
 
                     if (!string.IsNullOrWhiteSpace(result.FailureReason))
                     {
-                        AnsiConsole.MarkupLineInterpolated($"[yellow]Reason:[/] {Markup.Escape(result.FailureReason)}");
+                        AnsiConsole.MarkupLineInterpolated(
+                            $"[yellow]Reason:[/] {Markup.Escape(result.FailureReason)}"
+                        );
                     }
                 }
 
                 await Task.CompletedTask.ConfigureAwait(false);
-            });
+            }
+        );
 
         string localBaseUrl = $"http://127.0.0.1:{configuration.LocalPort}";
 
@@ -130,8 +138,12 @@ internal static class SampleApplication
 
         if (configuration.UseDevTunnels)
         {
-            devTunnelsRuntime = await StartDevTunnelsAsync(configuration, cancellationToken).ConfigureAwait(false);
-            publicWebhookUrl = CombineUrl(devTunnelsRuntime.PublicBaseUrl.ToString().TrimEnd('/'), configuration.WebhookPath);
+            devTunnelsRuntime = await StartDevTunnelsAsync(configuration, cancellationToken)
+                .ConfigureAwait(false);
+            publicWebhookUrl = CombineUrl(
+                devTunnelsRuntime.PublicBaseUrl.ToString().TrimEnd('/'),
+                configuration.WebhookPath
+            );
             RenderTunnelSummary(configuration, devTunnelsRuntime.PublicBaseUrl, publicWebhookUrl);
         }
 
@@ -142,14 +154,18 @@ internal static class SampleApplication
         if (configuration.ApiCredentials is not null && publicWebhookUrl is not null)
         {
             registeredWebhookId = await RegisterWebhookAsync(
-                configuration.ApiCredentials,
-                publicWebhookUrl,
-                consoleLock,
-                cancellationToken).ConfigureAwait(false);
+                    configuration.ApiCredentials,
+                    publicWebhookUrl,
+                    consoleLock,
+                    cancellationToken
+                )
+                .ConfigureAwait(false);
         }
         else if (configuration.ApiCredentials is not null && publicWebhookUrl is null)
         {
-            AnsiConsole.MarkupLine("[yellow]Skipping webhook auto-registration — no public URL (Dev Tunnels disabled).[/]");
+            AnsiConsole.MarkupLine(
+                "[yellow]Skipping webhook auto-registration — no public URL (Dev Tunnels disabled).[/]"
+            );
         }
 
         RenderUsageInstructions(configuration, localBaseUrl, devTunnelsRuntime?.PublicBaseUrl);
@@ -157,20 +173,24 @@ internal static class SampleApplication
         // ── Command loop ──────────────────────────────────────────────────────
 
         await RunCommandLoopAsync(
-            configuration,
-            receivedEvents,
-            devTunnelsRuntime,
-            consoleLock,
-            cancellationToken).ConfigureAwait(false);
+                configuration,
+                receivedEvents,
+                devTunnelsRuntime,
+                consoleLock,
+                cancellationToken
+            )
+            .ConfigureAwait(false);
 
         // ── Cleanup ───────────────────────────────────────────────────────────
 
         if (registeredWebhookId is not null && configuration.ApiCredentials is not null)
         {
             await DeregisterWebhookAsync(
-                configuration.ApiCredentials,
-                registeredWebhookId,
-                consoleLock).ConfigureAwait(false);
+                    configuration.ApiCredentials,
+                    registeredWebhookId,
+                    consoleLock
+                )
+                .ConfigureAwait(false);
         }
 
         if (devTunnelsRuntime is not null)
@@ -187,12 +207,14 @@ internal static class SampleApplication
     private static SampleConfiguration PromptConfiguration()
     {
         AnsiConsole.MarkupLine("[bold]Step 1 — API credentials (for auto-registration)[/]");
-        AnsiConsole.MarkupLine("[grey]Leave blank to skip webhook auto-registration and manage webhooks manually via the Fourthwall dashboard.[/]");
+        AnsiConsole.MarkupLine(
+            "[grey]Leave blank to skip webhook auto-registration and manage webhooks manually via the Fourthwall dashboard.[/]"
+        );
         AnsiConsole.WriteLine();
 
         string apiUsername = AnsiConsole.Prompt(
-            new TextPrompt<string>("Fourthwall [green]API username[/]?")
-                .AllowEmpty());
+            new TextPrompt<string>("Fourthwall [green]API username[/]?").AllowEmpty()
+        );
 
         ApiCredentials? apiCredentials = null;
 
@@ -201,7 +223,8 @@ internal static class SampleApplication
             string apiPassword = AnsiConsole.Prompt(
                 new TextPrompt<string>("Fourthwall [green]API password[/]?")
                     .PromptStyle("deepskyblue1")
-                    .Secret());
+                    .Secret()
+            );
 
             apiCredentials = new ApiCredentials(apiUsername.Trim(), apiPassword);
         }
@@ -213,14 +236,18 @@ internal static class SampleApplication
         int localPort = AnsiConsole.Prompt(
             new TextPrompt<int>("Local [green]HTTP port[/]?")
                 .DefaultValue(5074)
-                .Validate(port => port is > 0 and <= 65535
-                    ? ValidationResult.Success()
-                    : ValidationResult.Error("[red]Port must be between 1 and 65535.[/]")));
+                .Validate(port =>
+                    port is > 0 and <= 65535
+                        ? ValidationResult.Success()
+                        : ValidationResult.Error("[red]Port must be between 1 and 65535.[/]")
+                )
+        );
 
         string webhookPath = AnsiConsole.Prompt(
             new TextPrompt<string>("Webhook [green]path[/]?")
                 .DefaultValue("/webhooks/fourthwall/events")
-                .AllowEmpty());
+                .AllowEmpty()
+        );
 
         if (string.IsNullOrWhiteSpace(webhookPath))
         {
@@ -234,10 +261,15 @@ internal static class SampleApplication
 
         AnsiConsole.WriteLine();
         AnsiConsole.MarkupLine("[bold]Step 3 — Signature verification (optional)[/]");
-        AnsiConsole.MarkupLine("[grey]When omitted, all payloads arriving at your endpoint are accepted without HMAC verification.[/]");
+        AnsiConsole.MarkupLine(
+            "[grey]When omitted, all payloads arriving at your endpoint are accepted without HMAC verification.[/]"
+        );
         AnsiConsole.WriteLine();
 
-        bool useSigningSecret = AnsiConsole.Confirm("Verify webhook signatures with a [green]signing secret[/]?", false);
+        bool useSigningSecret = AnsiConsole.Confirm(
+            "Verify webhook signatures with a [green]signing secret[/]?",
+            false
+        );
 
         string? signingSecret = null;
         FourthwallWebhookSignatureMode signatureMode = FourthwallWebhookSignatureMode.ShopWebhook;
@@ -247,21 +279,27 @@ internal static class SampleApplication
             signingSecret = AnsiConsole.Prompt(
                 new TextPrompt<string>("Fourthwall [green]signing secret[/]?")
                     .PromptStyle("deepskyblue1")
-                    .Secret());
+                    .Secret()
+            );
 
             signatureMode = AnsiConsole.Prompt(
                 new SelectionPrompt<FourthwallWebhookSignatureMode>()
                     .Title("Webhook [green]signature mode[/]?")
                     .AddChoices(
                         FourthwallWebhookSignatureMode.ShopWebhook,
-                        FourthwallWebhookSignatureMode.PlatformAppWebhook));
+                        FourthwallWebhookSignatureMode.PlatformAppWebhook
+                    )
+            );
         }
 
         AnsiConsole.WriteLine();
         AnsiConsole.MarkupLine("[bold]Step 4 — Azure Dev Tunnels[/]");
         AnsiConsole.WriteLine();
 
-        bool useDevTunnels = AnsiConsole.Confirm("Use [green]Azure Dev Tunnels[/] for a public HTTPS URL?", defaultValue: true);
+        bool useDevTunnels = AnsiConsole.Confirm(
+            "Use [green]Azure Dev Tunnels[/] for a public HTTPS URL?",
+            defaultValue: true
+        );
 
         string tunnelId = "fourthwall-client-sample";
         LoginProvider loginProvider = LoginProvider.GitHub;
@@ -271,7 +309,8 @@ internal static class SampleApplication
             tunnelId = AnsiConsole.Prompt(
                 new TextPrompt<string>("Dev Tunnel [green]tunnel ID[/]?")
                     .DefaultValue("fourthwall-client-sample")
-                    .AllowEmpty());
+                    .AllowEmpty()
+            );
 
             if (string.IsNullOrWhiteSpace(tunnelId))
             {
@@ -281,7 +320,8 @@ internal static class SampleApplication
             loginProvider = AnsiConsole.Prompt(
                 new SelectionPrompt<LoginProvider>()
                     .Title("Login provider for [green]devtunnel[/]?")
-                    .AddChoices(LoginProvider.GitHub, LoginProvider.Microsoft));
+                    .AddChoices(LoginProvider.GitHub, LoginProvider.Microsoft)
+            );
         }
 
         return new SampleConfiguration(
@@ -292,65 +332,79 @@ internal static class SampleApplication
             UseDevTunnels: useDevTunnels,
             TunnelId: tunnelId,
             LoginProvider: loginProvider,
-            ApiCredentials: apiCredentials);
+            ApiCredentials: apiCredentials
+        );
     }
 
     // ── Dev Tunnels ───────────────────────────────────────────────────────────
 
     private static async Task<DevTunnelsRuntime> StartDevTunnelsAsync(
         SampleConfiguration configuration,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         AnsiConsole.WriteLine();
         AnsiConsole.MarkupLine("[bold]Starting Azure Dev Tunnels...[/]");
         AnsiConsole.WriteLine();
 
-        DevTunnelsClient client = new(new DevTunnelsClientOptions
-        {
-            CommandTimeout = TimeSpan.FromSeconds(20),
-        });
+        DevTunnelsClient client = new(
+            new DevTunnelsClientOptions { CommandTimeout = TimeSpan.FromSeconds(20) }
+        );
 
-        DevTunnelCliProbeResult probe = await client.ProbeCliAsync(cancellationToken).ConfigureAwait(false);
+        DevTunnelCliProbeResult probe = await client
+            .ProbeCliAsync(cancellationToken)
+            .ConfigureAwait(false);
 
         if (!probe.IsInstalled)
         {
             throw new InvalidOperationException(
-                "The devtunnel CLI is not installed or could not be found. Install it first, then re-run the sample.");
+                "The devtunnel CLI is not installed or could not be found. Install it first, then re-run the sample."
+            );
         }
 
-        AnsiConsole.MarkupLineInterpolated($"[green]CLI found:[/] devtunnel [white]{Markup.Escape(probe.Version?.ToString() ?? "unknown")}[/]");
+        AnsiConsole.MarkupLineInterpolated(
+            $"[green]CLI found:[/] devtunnel [white]{Markup.Escape(probe.Version?.ToString() ?? "unknown")}[/]"
+        );
 
-        await client.EnsureLoggedInAsync(configuration.LoginProvider, cancellationToken).ConfigureAwait(false);
+        await client
+            .EnsureLoggedInAsync(configuration.LoginProvider, cancellationToken)
+            .ConfigureAwait(false);
 
-        await client.CreateOrUpdateTunnelAsync(
-            configuration.TunnelId,
-            new DevTunnelOptions
-            {
-                Description = "Fourthwall.Client.Sample tunnel",
-                AllowAnonymous = true,
-            },
-            cancellationToken).ConfigureAwait(false);
+        await client
+            .CreateOrUpdateTunnelAsync(
+                configuration.TunnelId,
+                new DevTunnelOptions
+                {
+                    Description = "Fourthwall.Client.Sample tunnel",
+                    AllowAnonymous = true,
+                },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
 
-        await client.CreateOrReplacePortAsync(
-            configuration.TunnelId,
-            configuration.LocalPort,
-            new DevTunnelPortOptions
-            {
-                Protocol = "http",
-            },
-            cancellationToken).ConfigureAwait(false);
+        await client
+            .CreateOrReplacePortAsync(
+                configuration.TunnelId,
+                configuration.LocalPort,
+                new DevTunnelPortOptions { Protocol = "http" },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
 
-        IDevTunnelHostSession session = await client.StartHostSessionAsync(
-            new DevTunnelHostStartOptions
-            {
-                TunnelId = configuration.TunnelId,
-            },
-            cancellationToken).ConfigureAwait(false);
+        IDevTunnelHostSession session = await client
+            .StartHostSessionAsync(
+                new DevTunnelHostStartOptions { TunnelId = configuration.TunnelId },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
 
         await session.WaitForReadyAsync(cancellationToken).ConfigureAwait(false);
 
-        Uri publicBaseUrl = session.PublicUrl
-            ?? throw new InvalidOperationException("The Dev Tunnel host session became ready without a public URL.");
+        Uri publicBaseUrl =
+            session.PublicUrl
+            ?? throw new InvalidOperationException(
+                "The Dev Tunnel host session became ready without a public URL."
+            );
 
         return new DevTunnelsRuntime(session, publicBaseUrl);
     }
@@ -361,7 +415,8 @@ internal static class SampleApplication
         ApiCredentials credentials,
         string publicWebhookUrl,
         object consoleLock,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         lock (consoleLock)
         {
@@ -369,35 +424,40 @@ internal static class SampleApplication
         }
 
         FourthwallClientFactory factory = new();
-        FourthwallApiClient apiClient = factory.CreateWithBasicAuth(new FourthwallBasicAuthOptions
-        {
-            Username = credentials.Username,
-            Password = credentials.Password,
-        });
+        FourthwallApiClient apiClient = factory.CreateWithBasicAuth(
+            new FourthwallBasicAuthOptions
+            {
+                Username = credentials.Username,
+                Password = credentials.Password,
+            }
+        );
 
         try
         {
             // Check if a webhook for this URL already exists.
-            var existing = await apiClient.OpenApi.V10.Webhooks.GetAsync(cancellationToken: cancellationToken)
+            var existing = await apiClient
+                .OpenApi.V10.Webhooks.GetAsync(cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
 
-            WebhookConfigurationV1? match = existing?.Results?
-                .FirstOrDefault(w => string.Equals(w.Url, publicWebhookUrl, StringComparison.OrdinalIgnoreCase));
+            WebhookConfigurationV1? match = existing?.Results?.FirstOrDefault(w =>
+                string.Equals(w.Url, publicWebhookUrl, StringComparison.OrdinalIgnoreCase)
+            );
 
             if (match is not null)
             {
                 lock (consoleLock)
                 {
                     AnsiConsole.MarkupLineInterpolated(
-                        $"[green]Existing webhook found:[/] [white]{Markup.Escape(match.Id ?? "(no id)")}[/] — reusing.");
+                        $"[green]Existing webhook found:[/] [white]{Markup.Escape(match.Id ?? "(no id)")}[/] — reusing."
+                    );
                 }
 
                 return match.Id;
             }
 
             // Register a new webhook for all supported event types.
-            WebhookConfigurationV1? created = await apiClient.OpenApi.V10.Webhooks
-                .PostAsync(
+            WebhookConfigurationV1? created = await apiClient
+                .OpenApi.V10.Webhooks.PostAsync(
                     new WebhookConfigurationCreateRequest
                     {
                         Url = publicWebhookUrl,
@@ -412,14 +472,17 @@ internal static class SampleApplication
                             WebhookConfigurationCreateRequest_allowedTypes.SUBSCRIPTION_CHANGED,
                         ],
                     },
-                    cancellationToken: cancellationToken)
+                    cancellationToken: cancellationToken
+                )
                 .ConfigureAwait(false);
 
             if (created is null)
             {
                 lock (consoleLock)
                 {
-                    AnsiConsole.MarkupLine("[red]Webhook registration returned an empty response.[/]");
+                    AnsiConsole.MarkupLine(
+                        "[red]Webhook registration returned an empty response.[/]"
+                    );
                 }
 
                 return null;
@@ -428,9 +491,11 @@ internal static class SampleApplication
             lock (consoleLock)
             {
                 AnsiConsole.MarkupLineInterpolated(
-                    $"[green]Webhook registered:[/] id=[white]{Markup.Escape(created.Id ?? "(no id)")}[/]");
+                    $"[green]Webhook registered:[/] id=[white]{Markup.Escape(created.Id ?? "(no id)")}[/]"
+                );
                 AnsiConsole.MarkupLineInterpolated(
-                    $"[grey]Endpoint:[/] [white]{Markup.Escape(publicWebhookUrl)}[/]");
+                    $"[grey]Endpoint:[/] [white]{Markup.Escape(publicWebhookUrl)}[/]"
+                );
             }
 
             return created.Id;
@@ -439,8 +504,12 @@ internal static class SampleApplication
         {
             lock (consoleLock)
             {
-                AnsiConsole.MarkupLine($"[red]Webhook registration failed:[/] {Markup.Escape(ex.Message)}");
-                AnsiConsole.MarkupLine("[yellow]You can register the webhook manually via the Fourthwall dashboard.[/]");
+                AnsiConsole.MarkupLine(
+                    $"[red]Webhook registration failed:[/] {Markup.Escape(ex.Message)}"
+                );
+                AnsiConsole.MarkupLine(
+                    "[yellow]You can register the webhook manually via the Fourthwall dashboard.[/]"
+                );
             }
 
             return null;
@@ -450,7 +519,8 @@ internal static class SampleApplication
     private static async Task DeregisterWebhookAsync(
         ApiCredentials credentials,
         string webhookId,
-        object consoleLock)
+        object consoleLock
+    )
     {
         bool shouldDelete = false;
 
@@ -458,7 +528,8 @@ internal static class SampleApplication
         {
             shouldDelete = AnsiConsole.Confirm(
                 $"Delete the registered webhook [white]{Markup.Escape(webhookId)}[/] from Fourthwall?",
-                defaultValue: true);
+                defaultValue: true
+            );
         }
 
         if (!shouldDelete)
@@ -467,28 +538,35 @@ internal static class SampleApplication
         }
 
         FourthwallClientFactory factory = new();
-        FourthwallApiClient apiClient = factory.CreateWithBasicAuth(new FourthwallBasicAuthOptions
-        {
-            Username = credentials.Username,
-            Password = credentials.Password,
-        });
+        FourthwallApiClient apiClient = factory.CreateWithBasicAuth(
+            new FourthwallBasicAuthOptions
+            {
+                Username = credentials.Username,
+                Password = credentials.Password,
+            }
+        );
 
         try
         {
-            await apiClient.OpenApi.V10.Webhooks[webhookId]
+            await apiClient
+                .OpenApi.V10.Webhooks[webhookId]
                 .DeleteAsync(cancellationToken: CancellationToken.None)
                 .ConfigureAwait(false);
 
             lock (consoleLock)
             {
-                AnsiConsole.MarkupLineInterpolated($"[green]Webhook [white]{Markup.Escape(webhookId)}[/] deleted.[/]");
+                AnsiConsole.MarkupLineInterpolated(
+                    $"[green]Webhook [white]{Markup.Escape(webhookId)}[/] deleted.[/]"
+                );
             }
         }
         catch (Exception ex)
         {
             lock (consoleLock)
             {
-                AnsiConsole.MarkupLine($"[red]Webhook deletion failed:[/] {Markup.Escape(ex.Message)}");
+                AnsiConsole.MarkupLine(
+                    $"[red]Webhook deletion failed:[/] {Markup.Escape(ex.Message)}"
+                );
             }
         }
     }
@@ -508,22 +586,43 @@ internal static class SampleApplication
         table.AddRow("Local base URL", $"[white]{Markup.Escape(localBaseUrl)}[/]");
         table.AddRow("Webhook path", $"[white]{Markup.Escape(configuration.WebhookPath)}[/]");
         table.AddRow("Local webhook URL", $"[white]{Markup.Escape(localWebhookUrl)}[/]");
-        table.AddRow("API credentials", configuration.ApiCredentials is not null ? "[green]provided[/]" : "[yellow]not provided (manual registration)[/]");
-        table.AddRow("Signature verification",
-            configuration.SigningSecret is not null ? "[green]enabled[/]" : "[yellow]disabled (no secret)[/]");
+        table.AddRow(
+            "API credentials",
+            configuration.ApiCredentials is not null
+                ? "[green]provided[/]"
+                : "[yellow]not provided (manual registration)[/]"
+        );
+        table.AddRow(
+            "Signature verification",
+            configuration.SigningSecret is not null
+                ? "[green]enabled[/]"
+                : "[yellow]disabled (no secret)[/]"
+        );
         if (configuration.SigningSecret is not null)
         {
-            table.AddRow("Signature mode", $"[white]{Markup.Escape(configuration.SignatureMode.ToString())}[/]");
+            table.AddRow(
+                "Signature mode",
+                $"[white]{Markup.Escape(configuration.SignatureMode.ToString())}[/]"
+            );
         }
-        table.AddRow("Dev Tunnels enabled", configuration.UseDevTunnels ? "[green]yes[/]" : "[yellow]no[/]");
+        table.AddRow(
+            "Dev Tunnels enabled",
+            configuration.UseDevTunnels ? "[green]yes[/]" : "[yellow]no[/]"
+        );
 
-        AnsiConsole.Write(new Panel(table)
-            .Header("[bold]Runtime configuration[/]")
-            .Border(BoxBorder.Rounded)
-            .BorderColor(Color.CornflowerBlue));
+        AnsiConsole.Write(
+            new Panel(table)
+                .Header("[bold]Runtime configuration[/]")
+                .Border(BoxBorder.Rounded)
+                .BorderColor(Color.CornflowerBlue)
+        );
     }
 
-    private static void RenderTunnelSummary(SampleConfiguration configuration, Uri publicBaseUrl, string publicWebhookUrl)
+    private static void RenderTunnelSummary(
+        SampleConfiguration configuration,
+        Uri publicBaseUrl,
+        string publicWebhookUrl
+    )
     {
         Table table = new Table()
             .RoundedBorder()
@@ -535,16 +634,19 @@ internal static class SampleApplication
         table.AddRow("Public base URL", $"[white]{Markup.Escape(publicBaseUrl.ToString())}[/]");
         table.AddRow("Public webhook URL", $"[white]{Markup.Escape(publicWebhookUrl)}[/]");
 
-        AnsiConsole.Write(new Panel(table)
-            .Header("[bold]Public tunnel[/]")
-            .Border(BoxBorder.Rounded)
-            .BorderColor(Color.Green));
+        AnsiConsole.Write(
+            new Panel(table)
+                .Header("[bold]Public tunnel[/]")
+                .Border(BoxBorder.Rounded)
+                .BorderColor(Color.Green)
+        );
     }
 
     private static void RenderUsageInstructions(
         SampleConfiguration configuration,
         string localBaseUrl,
-        Uri? publicBaseUrl)
+        Uri? publicBaseUrl
+    )
     {
         string localWebhookUrl = CombineUrl(localBaseUrl, configuration.WebhookPath);
         string? publicWebhookUrl = publicBaseUrl is null
@@ -554,20 +656,29 @@ internal static class SampleApplication
         Rows rows = new(
             new Markup("[bold]Next steps[/]"),
             new Text(string.Empty),
-            new Markup("1. If auto-registration succeeded, send a test webhook from your Fourthwall dashboard."),
-            new Markup("2. Otherwise, copy the public webhook URL and register it manually in Fourthwall."),
+            new Markup(
+                "1. If auto-registration succeeded, send a test webhook from your Fourthwall dashboard."
+            ),
+            new Markup(
+                "2. Otherwise, copy the public webhook URL and register it manually in Fourthwall."
+            ),
             new Markup("3. Events will be printed here as they arrive."),
             new Markup("4. Use Ctrl+C or the Exit command to shut down cleanly."),
             new Text(string.Empty),
             new Markup($"[grey]Local webhook URL:[/] [white]{Markup.Escape(localWebhookUrl)}[/]"),
             publicWebhookUrl is not null
-                ? new Markup($"[grey]Public webhook URL:[/] [white]{Markup.Escape(publicWebhookUrl)}[/]")
-                : new Markup("[grey]Public webhook URL:[/] [yellow](Dev Tunnels disabled)[/]"));
+                ? new Markup(
+                    $"[grey]Public webhook URL:[/] [white]{Markup.Escape(publicWebhookUrl)}[/]"
+                )
+                : new Markup("[grey]Public webhook URL:[/] [yellow](Dev Tunnels disabled)[/]")
+        );
 
-        AnsiConsole.Write(new Panel(rows)
-            .Header("[bold]How to use[/]")
-            .Border(BoxBorder.Rounded)
-            .BorderColor(Color.Blue));
+        AnsiConsole.Write(
+            new Panel(rows)
+                .Header("[bold]How to use[/]")
+                .Border(BoxBorder.Rounded)
+                .BorderColor(Color.Blue)
+        );
     }
 
     // ── Command loop ──────────────────────────────────────────────────────────
@@ -577,7 +688,8 @@ internal static class SampleApplication
         ConcurrentQueue<FourthwallWebhookEvent> receivedEvents,
         DevTunnelsRuntime? devTunnelsRuntime,
         object consoleLock,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         while (!cancellationToken.IsCancellationRequested)
         {
@@ -590,7 +702,9 @@ internal static class SampleApplication
                         "Show webhook URLs",
                         "Show recent events",
                         "Show signature header name",
-                        "Exit"));
+                        "Exit"
+                    )
+            );
 
             switch (command)
             {
@@ -598,7 +712,10 @@ internal static class SampleApplication
                     lock (consoleLock)
                     {
                         string localBaseUrl = $"http://127.0.0.1:{configuration.LocalPort}";
-                        string localWebhookUrl = CombineUrl(localBaseUrl, configuration.WebhookPath);
+                        string localWebhookUrl = CombineUrl(
+                            localBaseUrl,
+                            configuration.WebhookPath
+                        );
 
                         Table table = new Table()
                             .RoundedBorder()
@@ -611,7 +728,8 @@ internal static class SampleApplication
                         {
                             string publicWebhookUrl = CombineUrl(
                                 devTunnelsRuntime.PublicBaseUrl.ToString().TrimEnd('/'),
-                                configuration.WebhookPath);
+                                configuration.WebhookPath
+                            );
 
                             table.AddRow("Public", $"[white]{Markup.Escape(publicWebhookUrl)}[/]");
                         }
@@ -645,7 +763,8 @@ internal static class SampleApplication
                                 Markup.Escape(evt.Type),
                                 Markup.Escape(evt.ShopId),
                                 Markup.Escape(evt.CreatedAt.ToString("u")),
-                                evt.TestMode ? "[yellow]yes[/]" : "[green]no[/]");
+                                evt.TestMode ? "[yellow]yes[/]" : "[green]no[/]"
+                            );
                         }
 
                         AnsiConsole.Write(table);
@@ -658,18 +777,24 @@ internal static class SampleApplication
                     {
                         if (configuration.SigningSecret is null)
                         {
-                            AnsiConsole.MarkupLine("[yellow]Signature verification is disabled — no header is checked.[/]");
+                            AnsiConsole.MarkupLine(
+                                "[yellow]Signature verification is disabled — no header is checked.[/]"
+                            );
                         }
                         else
                         {
                             string headerName = configuration.SignatureMode switch
                             {
-                                FourthwallWebhookSignatureMode.ShopWebhook => "X-Fourthwall-Hmac-SHA256",
-                                FourthwallWebhookSignatureMode.PlatformAppWebhook => "X-Fourthwall-Hmac-Apps-SHA256",
-                                _ => "(unknown)"
+                                FourthwallWebhookSignatureMode.ShopWebhook =>
+                                    "X-Fourthwall-Hmac-SHA256",
+                                FourthwallWebhookSignatureMode.PlatformAppWebhook =>
+                                    "X-Fourthwall-Hmac-Apps-SHA256",
+                                _ => "(unknown)",
                             };
 
-                            AnsiConsole.MarkupLineInterpolated($"[grey]Expected signature header:[/] [white]{Markup.Escape(headerName)}[/]");
+                            AnsiConsole.MarkupLineInterpolated(
+                                $"[grey]Expected signature header:[/] [white]{Markup.Escape(headerName)}[/]"
+                            );
                         }
                     }
 
@@ -697,10 +822,12 @@ internal static class SampleApplication
         grid.AddRow("[bold]Created[/]", Markup.Escape(evt.CreatedAt.ToString("u")));
         grid.AddRow("[bold]Test Mode[/]", evt.TestMode ? "[yellow]yes[/]" : "[green]no[/]");
 
-        AnsiConsole.Write(new Panel(grid)
-            .Header("[bold green]Webhook event received[/]")
-            .Border(BoxBorder.Rounded)
-            .BorderColor(Color.Green));
+        AnsiConsole.Write(
+            new Panel(grid)
+                .Header("[bold green]Webhook event received[/]")
+                .Border(BoxBorder.Rounded)
+                .BorderColor(Color.Green)
+        );
     }
 
     // ── Utilities ─────────────────────────────────────────────────────────────
@@ -722,7 +849,8 @@ internal static class SampleApplication
         bool UseDevTunnels,
         string TunnelId,
         LoginProvider LoginProvider,
-        ApiCredentials? ApiCredentials);
+        ApiCredentials? ApiCredentials
+    );
 
     private sealed record ApiCredentials(string Username, string Password);
 

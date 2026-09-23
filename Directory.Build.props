@@ -21,8 +21,8 @@
     <RepositoryUrl>https://github.com/Agash/Fourthwall.Client</RepositoryUrl>
     <PackageTags>fourthwall;creator-economy;merch;webhooks;api-client;kiota;dotnet;csharp;aot;nativeaot</PackageTags>
     <PackageProjectUrl>https://github.com/Agash/Fourthwall.Client</PackageProjectUrl>
-    <GenerateDocumentationFile Condition="'$(IsPackable)' == 'true'">true</GenerateDocumentationFile>
+    <GenerateDocumentationFile Condition="'$(IsPackable)' == 'true'"
+      >true</GenerateDocumentationFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
-
 </Project>
