@@ -19,7 +19,9 @@ public sealed class FourthwallClientFactory : IFourthwallClientFactory
     {
         ArgumentNullException.ThrowIfNull(options);
 
-        return CreateClient(new FourthwallBasicAuthenticationProvider(options.Username, options.Password));
+        return CreateClient(
+            new FourthwallBasicAuthenticationProvider(options.Username, options.Password)
+        );
     }
 
     /// <inheritdoc />

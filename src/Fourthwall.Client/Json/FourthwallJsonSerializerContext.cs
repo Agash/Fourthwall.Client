@@ -11,5 +11,6 @@ namespace Fourthwall.Client.Json;
 [JsonSourceGenerationOptions(
     PropertyNamingPolicy = JsonKnownNamingPolicy.Unspecified,
     DefaultIgnoreCondition = JsonIgnoreCondition.Never,
-    WriteIndented = false)]
+    WriteIndented = false
+)]
 internal sealed partial class FourthwallJsonSerializerContext : JsonSerializerContext;

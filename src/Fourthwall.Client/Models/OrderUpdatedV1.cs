@@ -13,7 +13,8 @@ namespace Fourthwall.Client.Models;
 public sealed class OrderUpdatedV1 : IAdditionalDataHolder, IParsable
 {
     /// <inheritdoc />
-    public IDictionary<string, object> AdditionalData { get; set; } = new Dictionary<string, object>();
+    public IDictionary<string, object> AdditionalData { get; set; } =
+        new Dictionary<string, object>();
 
     /// <summary>Gets or sets the full updated order.</summary>
     public OrderV1? Order { get; set; }
@@ -32,8 +33,22 @@ public sealed class OrderUpdatedV1 : IAdditionalDataHolder, IParsable
     public IDictionary<string, Action<IParseNode>> GetFieldDeserializers() =>
         new Dictionary<string, Action<IParseNode>>
         {
-            { "order", n => { Order = n.GetObjectValue<OrderV1>(OrderV1.CreateFromDiscriminatorValue); } },
-            { "update", n => { Update = n.GetObjectValue<OrderUpdatedV1Update>(OrderUpdatedV1Update.CreateFromDiscriminatorValue); } },
+            {
+                "order",
+                n =>
+                {
+                    Order = n.GetObjectValue<OrderV1>(OrderV1.CreateFromDiscriminatorValue);
+                }
+            },
+            {
+                "update",
+                n =>
+                {
+                    Update = n.GetObjectValue<OrderUpdatedV1Update>(
+                        OrderUpdatedV1Update.CreateFromDiscriminatorValue
+                    );
+                }
+            },
         };
 
     /// <inheritdoc />
@@ -53,7 +68,8 @@ public sealed class OrderUpdatedV1 : IAdditionalDataHolder, IParsable
 public sealed class OrderUpdatedV1Update : IAdditionalDataHolder, IParsable
 {
     /// <inheritdoc />
-    public IDictionary<string, object> AdditionalData { get; set; } = new Dictionary<string, object>();
+    public IDictionary<string, object> AdditionalData { get; set; } =
+        new Dictionary<string, object>();
 
     /// <summary>Gets or sets the update type discriminator.</summary>
     public string? Type { get; set; }
@@ -69,7 +85,13 @@ public sealed class OrderUpdatedV1Update : IAdditionalDataHolder, IParsable
     public IDictionary<string, Action<IParseNode>> GetFieldDeserializers() =>
         new Dictionary<string, Action<IParseNode>>
         {
-            { "type", n => { Type = n.GetStringValue(); } },
+            {
+                "type",
+                n =>
+                {
+                    Type = n.GetStringValue();
+                }
+            },
         };
 
     /// <inheritdoc />

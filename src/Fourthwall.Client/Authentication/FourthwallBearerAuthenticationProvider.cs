@@ -24,7 +24,8 @@ public sealed class FourthwallBearerAuthenticationProvider : IAuthenticationProv
     public Task AuthenticateRequestAsync(
         RequestInformation request,
         Dictionary<string, object>? additionalAuthenticationContext = null,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         ArgumentNullException.ThrowIfNull(request);
 

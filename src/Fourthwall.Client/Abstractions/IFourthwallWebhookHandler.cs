@@ -22,5 +22,6 @@ public interface IFourthwallWebhookHandler
     Task<WebhookHandleResult<FourthwallWebhookEvent>> HandleAsync(
         WebhookRequest request,
         FourthwallWebhookOptions options,
-        CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default
+    );
 }

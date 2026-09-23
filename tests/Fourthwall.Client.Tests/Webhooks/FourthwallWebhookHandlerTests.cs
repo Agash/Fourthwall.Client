@@ -1,10 +1,10 @@
+using System.Security.Cryptography;
+using System.Text;
 using Agash.Webhook.Abstractions;
 using Fourthwall.Client.Events;
 using Fourthwall.Client.Options;
 using Fourthwall.Client.Webhooks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Fourthwall.Client.Tests.Webhooks;
 
@@ -28,7 +28,9 @@ public sealed class FourthwallWebhookHandlerTests
         }
         """;
 
-    private readonly FourthwallWebhookHandler _handler = new(new FourthwallWebhookSignatureVerifier());
+    private readonly FourthwallWebhookHandler _handler = new(
+        new FourthwallWebhookSignatureVerifier()
+    );
 
     // ── No signing secret — verification skipped ──────────────────────────────
 
@@ -38,8 +40,10 @@ public sealed class FourthwallWebhookHandlerTests
         WebhookRequest request = BuildRequest(MinimalEnvelopeJson);
         FourthwallWebhookOptions options = new() { SigningSecret = null };
 
-        WebhookHandleResult<FourthwallWebhookEvent> result =
-            await _handler.HandleAsync(request, options);
+        WebhookHandleResult<FourthwallWebhookEvent> result = await _handler.HandleAsync(
+            request,
+            options
+        );
 
         Assert.AreEqual(200, result.Response.StatusCode);
         Assert.IsTrue(result.IsAuthenticated);
@@ -52,8 +56,10 @@ public sealed class FourthwallWebhookHandlerTests
         WebhookRequest request = BuildRequest(MinimalEnvelopeJson);
         FourthwallWebhookOptions options = new() { SigningSecret = string.Empty };
 
-        WebhookHandleResult<FourthwallWebhookEvent> result =
-            await _handler.HandleAsync(request, options);
+        WebhookHandleResult<FourthwallWebhookEvent> result = await _handler.HandleAsync(
+            request,
+            options
+        );
 
         Assert.AreEqual(200, result.Response.StatusCode);
         Assert.IsTrue(result.IsAuthenticated);
@@ -67,8 +73,10 @@ public sealed class FourthwallWebhookHandlerTests
         WebhookRequest request = BuildRequest(MinimalEnvelopeJson, includeSignatureHeader: false);
         FourthwallWebhookOptions options = new() { SigningSecret = null };
 
-        WebhookHandleResult<FourthwallWebhookEvent> result =
-            await _handler.HandleAsync(request, options);
+        WebhookHandleResult<FourthwallWebhookEvent> result = await _handler.HandleAsync(
+            request,
+            options
+        );
 
         Assert.AreEqual(200, result.Response.StatusCode);
         Assert.IsNotNull(result.Event);
@@ -78,11 +86,16 @@ public sealed class FourthwallWebhookHandlerTests
     public async Task HandleAsync_NullSigningSecret_MalformedJson_Returns400()
     {
         // Skipping verification does not bypass JSON parsing.
-        WebhookRequest request = BuildRequest("{ not valid json }", contentType: "application/json");
+        WebhookRequest request = BuildRequest(
+            "{ not valid json }",
+            contentType: "application/json"
+        );
         FourthwallWebhookOptions options = new() { SigningSecret = null };
 
-        WebhookHandleResult<FourthwallWebhookEvent> result =
-            await _handler.HandleAsync(request, options);
+        WebhookHandleResult<FourthwallWebhookEvent> result = await _handler.HandleAsync(
+            request,
+            options
+        );
 
         Assert.AreEqual(400, result.Response.StatusCode);
         // IsAuthenticated reflects that the auth/skip step passed — the failure is in content parsing.
@@ -101,7 +114,8 @@ public sealed class FourthwallWebhookHandlerTests
         WebhookRequest request = BuildRequest(
             MinimalEnvelopeJson,
             headerName: FourthwallWebhookSignatureVerifier.ShopWebhookSignatureHeaderName,
-            headerValue: signature);
+            headerValue: signature
+        );
 
         FourthwallWebhookOptions options = new()
         {
@@ -109,8 +123,10 @@ public sealed class FourthwallWebhookHandlerTests
             SignatureMode = FourthwallWebhookSignatureMode.ShopWebhook,
         };
 
-        WebhookHandleResult<FourthwallWebhookEvent> result =
-            await _handler.HandleAsync(request, options);
+        WebhookHandleResult<FourthwallWebhookEvent> result = await _handler.HandleAsync(
+            request,
+            options
+        );
 
         Assert.AreEqual(200, result.Response.StatusCode);
         Assert.IsTrue(result.IsAuthenticated);
@@ -126,7 +142,8 @@ public sealed class FourthwallWebhookHandlerTests
         WebhookRequest request = BuildRequest(
             MinimalEnvelopeJson,
             headerName: FourthwallWebhookSignatureVerifier.PlatformAppWebhookSignatureHeaderName,
-            headerValue: signature);
+            headerValue: signature
+        );
 
         FourthwallWebhookOptions options = new()
         {
@@ -134,8 +151,10 @@ public sealed class FourthwallWebhookHandlerTests
             SignatureMode = FourthwallWebhookSignatureMode.PlatformAppWebhook,
         };
 
-        WebhookHandleResult<FourthwallWebhookEvent> result =
-            await _handler.HandleAsync(request, options);
+        WebhookHandleResult<FourthwallWebhookEvent> result = await _handler.HandleAsync(
+            request,
+            options
+        );
 
         Assert.AreEqual(200, result.Response.StatusCode);
         Assert.IsTrue(result.IsAuthenticated);
@@ -147,8 +166,10 @@ public sealed class FourthwallWebhookHandlerTests
         WebhookRequest request = BuildRequest(MinimalEnvelopeJson, includeSignatureHeader: false);
         FourthwallWebhookOptions options = new() { SigningSecret = TestSigningSecret };
 
-        WebhookHandleResult<FourthwallWebhookEvent> result =
-            await _handler.HandleAsync(request, options);
+        WebhookHandleResult<FourthwallWebhookEvent> result = await _handler.HandleAsync(
+            request,
+            options
+        );
 
         Assert.AreEqual(401, result.Response.StatusCode);
         Assert.IsFalse(result.IsAuthenticated);
@@ -161,12 +182,15 @@ public sealed class FourthwallWebhookHandlerTests
         WebhookRequest request = BuildRequest(
             MinimalEnvelopeJson,
             headerName: FourthwallWebhookSignatureVerifier.ShopWebhookSignatureHeaderName,
-            headerValue: "aW52YWxpZA=="); // base64("invalid"), not a valid HMAC
+            headerValue: "aW52YWxpZA=="
+        ); // base64("invalid"), not a valid HMAC
 
         FourthwallWebhookOptions options = new() { SigningSecret = TestSigningSecret };
 
-        WebhookHandleResult<FourthwallWebhookEvent> result =
-            await _handler.HandleAsync(request, options);
+        WebhookHandleResult<FourthwallWebhookEvent> result = await _handler.HandleAsync(
+            request,
+            options
+        );
 
         Assert.AreEqual(401, result.Response.StatusCode);
         Assert.IsFalse(result.IsAuthenticated);
@@ -182,12 +206,15 @@ public sealed class FourthwallWebhookHandlerTests
         WebhookRequest request = BuildRequest(
             MinimalEnvelopeJson,
             headerName: FourthwallWebhookSignatureVerifier.ShopWebhookSignatureHeaderName,
-            headerValue: wrongSignature);
+            headerValue: wrongSignature
+        );
 
         FourthwallWebhookOptions options = new() { SigningSecret = TestSigningSecret };
 
-        WebhookHandleResult<FourthwallWebhookEvent> result =
-            await _handler.HandleAsync(request, options);
+        WebhookHandleResult<FourthwallWebhookEvent> result = await _handler.HandleAsync(
+            request,
+            options
+        );
 
         Assert.AreEqual(401, result.Response.StatusCode);
         Assert.IsFalse(result.IsAuthenticated);
@@ -204,8 +231,10 @@ public sealed class FourthwallWebhookHandlerTests
         WebhookRequest request = BuildRequest(MinimalEnvelopeJson, method: method);
         FourthwallWebhookOptions options = new() { SigningSecret = null };
 
-        WebhookHandleResult<FourthwallWebhookEvent> result =
-            await _handler.HandleAsync(request, options);
+        WebhookHandleResult<FourthwallWebhookEvent> result = await _handler.HandleAsync(
+            request,
+            options
+        );
 
         Assert.AreEqual(405, result.Response.StatusCode);
     }
@@ -216,8 +245,10 @@ public sealed class FourthwallWebhookHandlerTests
         WebhookRequest request = BuildRequest(MinimalEnvelopeJson, contentType: "text/plain");
         FourthwallWebhookOptions options = new() { SigningSecret = null };
 
-        WebhookHandleResult<FourthwallWebhookEvent> result =
-            await _handler.HandleAsync(request, options);
+        WebhookHandleResult<FourthwallWebhookEvent> result = await _handler.HandleAsync(
+            request,
+            options
+        );
 
         Assert.AreEqual(400, result.Response.StatusCode);
     }
@@ -230,7 +261,8 @@ public sealed class FourthwallWebhookHandlerTests
         string contentType = "application/json",
         string? headerName = null,
         string? headerValue = null,
-        bool includeSignatureHeader = true)
+        bool includeSignatureHeader = true
+    )
     {
         byte[] body = Encoding.UTF8.GetBytes(json);
 

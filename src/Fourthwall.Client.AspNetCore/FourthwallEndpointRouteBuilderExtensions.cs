@@ -25,7 +25,8 @@ public static class FourthwallEndpointRouteBuilderExtensions
     public static IEndpointConventionBuilder MapFourthwallWebhook(
         this IEndpointRouteBuilder endpoints,
         string pattern,
-        Action<FourthwallWebhookEndpointOptions> configure)
+        Action<FourthwallWebhookEndpointOptions> configure
+    )
     {
         ArgumentNullException.ThrowIfNull(endpoints);
         ArgumentException.ThrowIfNullOrEmpty(pattern);
@@ -33,39 +34,50 @@ public static class FourthwallEndpointRouteBuilderExtensions
 
         FourthwallWebhookEndpointOptions options = new()
         {
-            ResolveWebhookOptionsAsync = static (_, _) => Task.FromResult(new FourthwallWebhookOptions()),
+            ResolveWebhookOptionsAsync = static (_, _) =>
+                Task.FromResult(new FourthwallWebhookOptions()),
         };
 
         configure(options);
 
-        return endpoints.MapPost(pattern, async context =>
-        {
-            IFourthwallWebhookHandler handler = context.RequestServices.GetRequiredService<IFourthwallWebhookHandler>();
+        return endpoints.MapPost(
+            pattern,
+            async context =>
+            {
+                IFourthwallWebhookHandler handler =
+                    context.RequestServices.GetRequiredService<IFourthwallWebhookHandler>();
 
-            FourthwallWebhookOptions webhookOptions =
-                await options.ResolveWebhookOptionsAsync(context, context.RequestAborted).ConfigureAwait(false);
-
-            WebhookRequest request =
-                await HttpContextWebhookRequestMapper.FromHttpContextAsync(context, context.RequestAborted)
+                FourthwallWebhookOptions webhookOptions = await options
+                    .ResolveWebhookOptionsAsync(context, context.RequestAborted)
                     .ConfigureAwait(false);
 
-            WebhookHandleResult<FourthwallWebhookEvent> result =
-                await handler.HandleAsync(request, webhookOptions, context.RequestAborted)
+                WebhookRequest request = await HttpContextWebhookRequestMapper
+                    .FromHttpContextAsync(context, context.RequestAborted)
                     .ConfigureAwait(false);
 
-            if (result.Event is FourthwallWebhookEvent evt && options.OnEventAsync is not null)
-            {
-                await options.OnEventAsync(evt, context, context.RequestAborted).ConfigureAwait(false);
-            }
+                WebhookHandleResult<FourthwallWebhookEvent> result = await handler
+                    .HandleAsync(request, webhookOptions, context.RequestAborted)
+                    .ConfigureAwait(false);
 
-            if (options.OnResultAsync is not null)
-            {
-                await options.OnResultAsync(result, context, context.RequestAborted).ConfigureAwait(false);
-            }
+                if (result.Event is FourthwallWebhookEvent evt && options.OnEventAsync is not null)
+                {
+                    await options
+                        .OnEventAsync(evt, context, context.RequestAborted)
+                        .ConfigureAwait(false);
+                }
 
-            await WebhookResponseHttpContextWriter.WriteAsync(context, result.Response, context.RequestAborted)
-                .ConfigureAwait(false);
-        });
+                if (options.OnResultAsync is not null)
+                {
+                    await options
+                        .OnResultAsync(result, context, context.RequestAborted)
+                        .ConfigureAwait(false);
+                }
+
+                await WebhookResponseHttpContextWriter
+                    .WriteAsync(context, result.Response, context.RequestAborted)
+                    .ConfigureAwait(false);
+            }
+        );
     }
 
     /// <summary>
@@ -80,9 +92,19 @@ public static class FourthwallEndpointRouteBuilderExtensions
     public static IEndpointConventionBuilder MapFourthwallWebhook(
         this IEndpointRouteBuilder endpoints,
         string pattern,
-        Func<HttpContext, CancellationToken, Task<FourthwallWebhookOptions>> resolveWebhookOptionsAsync,
+        Func<
+            HttpContext,
+            CancellationToken,
+            Task<FourthwallWebhookOptions>
+        > resolveWebhookOptionsAsync,
         Func<FourthwallWebhookEvent, HttpContext, CancellationToken, Task>? onEventAsync = null,
-        Func<WebhookHandleResult<FourthwallWebhookEvent>, HttpContext, CancellationToken, Task>? onResultAsync = null)
+        Func<
+            WebhookHandleResult<FourthwallWebhookEvent>,
+            HttpContext,
+            CancellationToken,
+            Task
+        >? onResultAsync = null
+    )
     {
         ArgumentNullException.ThrowIfNull(resolveWebhookOptionsAsync);
 
@@ -93,6 +115,7 @@ public static class FourthwallEndpointRouteBuilderExtensions
                 options.ResolveWebhookOptionsAsync = resolveWebhookOptionsAsync;
                 options.OnEventAsync = onEventAsync;
                 options.OnResultAsync = onResultAsync;
-            });
+            }
+        );
     }
 }
