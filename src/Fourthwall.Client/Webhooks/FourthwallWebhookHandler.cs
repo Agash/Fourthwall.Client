@@ -160,6 +160,7 @@ public sealed class FourthwallWebhookHandler : IFourthwallWebhookHandler
                         ApiVersion = envelope.ApiVersion,
                         CreatedAt = envelope.CreatedAt,
                         TestMode = envelope.TestMode,
+                        RawData = envelope.Data,
                         Data = data,
                     };
             }
@@ -183,6 +184,7 @@ public sealed class FourthwallWebhookHandler : IFourthwallWebhookHandler
                         ApiVersion = envelope.ApiVersion,
                         CreatedAt = envelope.CreatedAt,
                         TestMode = envelope.TestMode,
+                        RawData = envelope.Data,
                         Data = data,
                     };
             }
@@ -206,6 +208,7 @@ public sealed class FourthwallWebhookHandler : IFourthwallWebhookHandler
                         ApiVersion = envelope.ApiVersion,
                         CreatedAt = envelope.CreatedAt,
                         TestMode = envelope.TestMode,
+                        RawData = envelope.Data,
                         Data = data,
                     };
             }
@@ -229,6 +232,7 @@ public sealed class FourthwallWebhookHandler : IFourthwallWebhookHandler
                         ApiVersion = envelope.ApiVersion,
                         CreatedAt = envelope.CreatedAt,
                         TestMode = envelope.TestMode,
+                        RawData = envelope.Data,
                         Data = data,
                     };
             }
@@ -252,6 +256,7 @@ public sealed class FourthwallWebhookHandler : IFourthwallWebhookHandler
                         ApiVersion = envelope.ApiVersion,
                         CreatedAt = envelope.CreatedAt,
                         TestMode = envelope.TestMode,
+                        RawData = envelope.Data,
                         Data = data,
                     };
             }
@@ -275,6 +280,7 @@ public sealed class FourthwallWebhookHandler : IFourthwallWebhookHandler
                         ApiVersion = envelope.ApiVersion,
                         CreatedAt = envelope.CreatedAt,
                         TestMode = envelope.TestMode,
+                        RawData = envelope.Data,
                         Data = data,
                     };
             }
@@ -298,6 +304,7 @@ public sealed class FourthwallWebhookHandler : IFourthwallWebhookHandler
                         ApiVersion = envelope.ApiVersion,
                         CreatedAt = envelope.CreatedAt,
                         TestMode = envelope.TestMode,
+                        RawData = envelope.Data,
                         Data = data,
                     };
             }
@@ -312,6 +319,7 @@ public sealed class FourthwallWebhookHandler : IFourthwallWebhookHandler
                     ApiVersion = envelope.ApiVersion,
                     CreatedAt = envelope.CreatedAt,
                     TestMode = envelope.TestMode,
+                    RawData = envelope.Data,
                     Data = envelope.Data.Clone(),
                 };
         }

@@ -51,6 +51,26 @@ public sealed class FourthwallWebhookHandlerTests
     }
 
     [TestMethod]
+    public async Task HandleAsync_AnyEvent_KeepsTheRawDataObject()
+    {
+        WebhookRequest request = BuildRequest(
+            MinimalEnvelopeJson.Replace(
+                "\"data\": {}",
+                "\"data\": { \"note\": \"kept\" }",
+                StringComparison.Ordinal
+            )
+        );
+
+        WebhookHandleResult<FourthwallWebhookEvent> result = await _handler.HandleAsync(
+            request,
+            new FourthwallWebhookOptions { SigningSecret = null }
+        );
+
+        Assert.IsNotNull(result.Event);
+        Assert.AreEqual("kept", result.Event.RawData.GetProperty("note").GetString());
+    }
+
+    [TestMethod]
     public async Task HandleAsync_EmptySigningSecret_SkipsVerificationAndReturns200()
     {
         WebhookRequest request = BuildRequest(MinimalEnvelopeJson);
